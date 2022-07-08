@@ -16,13 +16,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-
+import javax.swing.ImageIcon;
 
 public class Login implements ActionListener {
 	private MemberDAO dao;
 	JFrame f;
 	JButton bLogin, bNew;
-	JLabel lid, lpw;
 	JTextField id;
 	JPasswordField pf; // 비밀번호 안보이게
 	BufferedImage img = null;
@@ -40,7 +39,7 @@ public class Login implements ActionListener {
 
 		JLayeredPane layerpane = new JLayeredPane();
 		layerpane.setLocation(0, 0);
-		layerpane.setSize(500, 700);
+		layerpane.setSize(510, 740);
 
 		try {
 			img = ImageIO.read(new File("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\Login.png"));
@@ -50,44 +49,48 @@ public class Login implements ActionListener {
 		}
 
 		myPanel panel = new myPanel();
-		panel.setSize(500, 700);
+		panel.setSize(510, 740);
 		layerpane.add(panel);
 		layerpane.setLayout(null);
 
-		f.setBounds(700, 50, 510, 710);
-		
-		id = new JTextField();
-		pf = new JPasswordField();
-		id.setBounds(82, 78, 220, 25);
-		pf.setBounds(82, 118, 220, 25);
+		f.setBounds(700, 50, 510, 740);
 
-		bLogin = new JButton("로그인");
-		bNew = new JButton("회원가입");
-		bLogin.setBounds(28, 199, 122, 30);
-		bNew.setBounds(180, 199, 122, 30);
-		bLogin.addActionListener(this);
-		bNew.addActionListener(this);
-		
 		f.setLocationRelativeTo(null);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.getContentPane().setLayout(null);
-		f.getContentPane().add(bLogin);
-		f.getContentPane().add(bNew);
+
+		id = new JTextField();
+		id.setBounds(162, 375, 205, 25);
 		f.getContentPane().add(id);
+		pf = new JPasswordField();
+		pf.setBounds(162, 443, 205, 25);
 		f.getContentPane().add(pf);
-		lid = new JLabel("ID : ", JLabel.RIGHT);
-		lid.setBounds(42, 83, 23, 15);
-		f.getContentPane().add(lid);
-		lpw = new JLabel("PW : ", JLabel.RIGHT);
-		lpw.setBounds(42, 123, 30, 15);
-		f.getContentPane().add(lpw);
+		bNew = new JButton("");
+		bNew.setContentAreaFilled(false);
+		bNew.setBorderPainted(false);
+		bNew.setFocusPainted(false);
+		bNew.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\new.png"));
+		bNew.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\new_1.png"));
+		bNew.setBounds(288, 548, 122, 57);
+		f.getContentPane().add(bNew);
+
+		bLogin = new JButton("");
+		bLogin.setContentAreaFilled(false);
+		bLogin.setBorderPainted(false);
+		bLogin.setFocusPainted(false);
+		bLogin.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\login.png"));
+		bLogin.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\login_1.png"));
+		bLogin.setBounds(83, 548, 122, 57);
+		f.getContentPane().add(bLogin);
+		bLogin.addActionListener(this);
+		bNew.addActionListener(this);
 		f.getContentPane().add(layerpane);
 		f.setVisible(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("로그인")) {
+		if (e.getSource() == bLogin) {
 			if (id.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "id를 입력해주세요", "", JOptionPane.WARNING_MESSAGE);
 				id.grabFocus();
@@ -108,11 +111,11 @@ public class Login implements ActionListener {
 					new Bank();
 
 				} else {
-					JOptionPane.showMessageDialog(null, "로그인 실패", "실패", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "id와 비밀번호를 확인해주세요", "실패", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		}
-		if (e.getActionCommand().equals("회원가입")) {
+		if (e.getSource()==bNew) {
 			f.setVisible(false);
 			new NewLogin();
 		}

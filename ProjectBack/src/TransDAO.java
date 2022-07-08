@@ -16,8 +16,13 @@ public class TransDAO {
 	private Statement stmt;
 	private ResultSet rs;
 	
+	String name;
+	String id;
 	String account;
 	String myaccount;
+	String tstype;
+	String tsdate;
+	int balance;
 	BankIdAccountDAO dao = new BankIdAccountDAO();
 	
 
@@ -185,7 +190,7 @@ public class TransDAO {
 		}
 		return false;
 	}
-	//다른사람 송금 -> 로그인한 사람 (다른사람 송금 계좌 마이너스)
+	//다른사람 송금 -> 로그인한 사람 (다른사람 송금 계좌 플러스)
 		public boolean list4(TransVo tv) {
 
 			try {
@@ -237,6 +242,124 @@ public class TransDAO {
 				pstmt = conn.prepareStatement(sql);
 				
 				pstmt.executeUpdate();
+				
+//		
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null)
+						conn.close();
+					if (pstmt != null)
+						pstmt.close();
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+			}
+			return false;
+		}
+		
+		public boolean succ(TransVo tv) {
+
+			try {
+				
+				Class.forName(driver);
+				conn = DriverManager.getConnection(url, user, password);
+				
+
+				String sql = "SELECT s.name, u.id, u.account FROM SIGNUP s, USERMEMBER u "
+						+ "WHERE s.ID = u.ID  and u.id ='" + tv.getId() + "'";
+
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					name = rs.getString("name");
+					id = rs.getString("id");
+					account = rs.getString("account");
+					System.out.println(name);
+					System.out.println(id);
+					System.out.println(account);
+				}
+				
+//		
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null)
+						conn.close();
+					if (pstmt != null)
+						pstmt.close();
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+			}
+			return false;
+		}
+		public boolean succdate() {
+
+			try {
+				
+				Class.forName(driver);
+				conn = DriverManager.getConnection(url, user, password);
+				
+
+				String sql = "SELECT TSTYPE , MAX(TSDATE) FROM TSHISTORY "
+						+ "WHERE RECEIVER  = '"+ account +"' AND TSTYPE = '출금' GROUP BY TSTYPE";
+
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					tstype = rs.getString("tstype");
+					tsdate = rs.getString("MAX(TSDATE)");
+					System.out.println(tstype);
+					System.out.println(tsdate);
+				}
+				
+//		
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null)
+						conn.close();
+					if (pstmt != null)
+						pstmt.close();
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+			}
+			return false;
+		}
+		public boolean tranmybal() {
+
+			try {
+				
+				dao.list(MemberVo.user);
+				Class.forName(driver);
+				conn = DriverManager.getConnection(url, user, password);
+				
+
+				String sql = "SELECT balance FROM USERMEMBER WHERE ACCOUNT = '" + dao.account + "'";
+
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					balance = rs.getInt("balance");
+					System.out.println(tsdate);
+				}
 				
 //		
 

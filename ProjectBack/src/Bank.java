@@ -42,7 +42,7 @@ public class Bank implements ActionListener {
 
 		JLayeredPane layerpane = new JLayeredPane();
 		layerpane.setLocation(0, 0);
-		layerpane.setSize(500, 431);
+		layerpane.setSize(500, 490);
 
 		try {
 			img = ImageIO.read(new File("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\Bank.png"));
@@ -52,11 +52,11 @@ public class Bank implements ActionListener {
 		}
 
 		myPanel panel = new myPanel();
-		panel.setSize(500, 450);
+		panel.setSize(500, 490);
 		layerpane.add(panel);
 		layerpane.setLayout(null);
 
-		f.setBounds(700, 50, 510, 470);
+		f.setBounds(700, 50, 510, 490);
 		f.setLocationRelativeTo(null);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.getContentPane().setLayout(null);
@@ -64,14 +64,16 @@ public class Bank implements ActionListener {
 		
 		//·Î±×ÀÎÇÑ »ç¶÷ id
 		ltxid = new JLabel(MemberVo.user.getId());
-		ltxid.setBounds(85, 40, 82, 25);
-		ltxid.setFont(new Font("±¼¸²", Font.BOLD, 14));
+		ltxid.setBounds(50, 40, 98, 25);
+		ltxid.setFont(new Font("THE½ºÇÇµå", Font.BOLD, 16));
+		ltxid.setHorizontalAlignment(JLabel.RIGHT);
 		f.getContentPane().add(ltxid);
 
 		//ÀÜ¾× ¶ß´Â Ä­
 		textField = new JLabel(Integer.toString(dao.balance));
-		textField.setFont(new Font("±¼¸²", Font.BOLD, 16));
-		textField.setBounds(254, 195, 76, 30);
+		textField.setHorizontalAlignment(JLabel.CENTER);
+		textField.setFont(new Font("THE½ºÇÇµå", Font.BOLD, 18));
+		textField.setBounds(232, 195, 98, 30);
 		f.getContentPane().add(textField);
 		
 		//ÀÌÃ¼¹öÆ°

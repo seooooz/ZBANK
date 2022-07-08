@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.ImageIcon;
 
 
 
@@ -32,6 +33,7 @@ public class Check implements ActionListener {
 	JFrame f;
 	private JTable table;
 	JLabel ltxid, ltxacc;
+	JButton bmain;
 	
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:xe";
@@ -59,7 +61,7 @@ public class Check implements ActionListener {
 		
 		JLayeredPane layerpane = new JLayeredPane();
 		layerpane.setLocation(0, 0);
-		layerpane.setSize(500, 700);
+		layerpane.setSize(510, 740);
 		
 		try {
 			img = ImageIO.read(new File("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\Check.png"));
@@ -69,7 +71,7 @@ public class Check implements ActionListener {
 		}
 		
 		myPanel panel = new myPanel();
-		panel.setSize(500,700);
+		panel.setSize(510,740);
 		layerpane.add(panel);
 		
 		layerpane.setLayout(null);
@@ -78,22 +80,35 @@ public class Check implements ActionListener {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.getContentPane().setLayout(null);
 		JScrollPane scrollPane = new JScrollPane(table = new JTable());
-		scrollPane.setBounds(0, 248, 484, 413);
+		scrollPane.setBounds(0, 248, 494, 453);
 		f.getContentPane().setLayout(null);
 		f.getContentPane().add(scrollPane);
 		//
 		ltxid = new JLabel(MemberVo.user.getId());
-		ltxid.setBounds(383, 17, 83, 25);
+		ltxid.setBounds(367, 10, 101, 25);
+		ltxid.setHorizontalAlignment(JLabel.RIGHT);
 		f.getContentPane().add(ltxid);
-		ltxid.setFont(new Font("±¼¸²", Font.BOLD, 14));
+		ltxid.setFont(new Font("THE½ºÇÇµå", Font.PLAIN, 15));
 		ltxacc = new JLabel(dao.account);
-		ltxacc.setBounds(353, 50, 119, 25);
+		ltxacc.setBounds(367, 37, 101, 25);
+		ltxacc.setHorizontalAlignment(JLabel.RIGHT);
 		f.getContentPane().add(ltxacc);
-		ltxacc.setFont(new Font("±¼¸²", Font.BOLD, 14));
+		ltxacc.setFont(new Font("THE½ºÇÇµå", Font.PLAIN, 15));
 		
 		
 		
-		f.setBounds(700, 50, 500, 700);
+		f.setBounds(700, 50, 510, 740);
+		
+		bmain = new JButton("");
+		bmain.setContentAreaFilled(false);
+		bmain.setBorderPainted(false);
+		bmain.setFocusPainted(false);
+		bmain.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main.png"));
+		bmain.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main_1.png"));
+		bmain.setBounds(23, 16, 57, 55);
+		bmain.addActionListener(this);
+		f.getContentPane().add(bmain);
+		
 		f.getContentPane().add(layerpane);
 		f.setVisible(true);
 		
@@ -175,6 +190,9 @@ public class Check implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-//		if()
+		if(e.getSource() == bmain) {
+			f.setVisible(false);
+			new Bank();
+		}
 	}
 }

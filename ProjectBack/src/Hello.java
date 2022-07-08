@@ -1,93 +1,102 @@
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
+import javax.swing.ImageIcon;
 
 
 public class Hello implements ActionListener{
 	private JFrame f;
 	JTextField tfId, tfPw;
-	private final JPanel panel_1 = new JPanel();
-	private JLabel lblNewLabel, lname, lid, tfcAcc;
+	private JLabel lname, lid, tfcAcc;
+	JButton btgLogin;
 	HelloDAO dao;
-//	BankIdAccountDAO bdao;
+	BufferedImage img = null;
+
+	class myPanel extends JPanel {
+		public void paint(Graphics g) {
+			g.drawImage(img, 0, 0, null);
+		}
+	}
 	
-//	String n, String i
 	public Hello() {	
 		
 		dao = new HelloDAO();
-//		bdao = new BankIdAccountDAO();
 		dao.list(UserVo.user);
 		dao.list1(UserVo.user);
-//		bdao.list(MemberVo.user);
 		
 		
 		f = new JFrame("축하");
 		tfId = new JTextField();
 		tfPw = new JTextField();
 		
-		f.setSize(350, 300);
+		JLayeredPane layerpane = new JLayeredPane();
+		layerpane.setLocation(0, 0);
+		layerpane.setSize(500, 490);
+
+		try {
+			img = ImageIO.read(new File("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\Hello.png"));
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "실패");
+			System.exit(0);
+		}
+
+		myPanel panel = new myPanel();
+		panel.setSize(500, 490);
+		layerpane.add(panel);
+		layerpane.setLayout(null);
+
+		f.setBounds(700, 50, 510, 490);
+		
 		f.setLocationRelativeTo(null);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.getContentPane().setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(SystemColor.window);
-		panel.setBounds(0, 0, 334, 65);
-		f.getContentPane().add(panel);
-		panel.setLayout(null);
-		
-		JLabel lthx = new JLabel("\uAC00\uC785\uC744 \uCD95\uD558\uD569\uB2C8\uB2E4.");
-		lthx.setFont(new Font("굴림", Font.BOLD, 15));
-		lthx.setBounds(161, 16, 147, 33);
-		panel.add(lthx);
-		
 		lname = new JLabel(dao.name);
-		lname.setFont(new Font("굴림", Font.PLAIN, 15));
-		lname.setBounds(37, 22, 116, 21);
-		panel.add(lname);
-		panel_1.setBackground(SystemColor.inactiveCaption);
-		panel_1.setBounds(0, 64, 334, 197);
-		f.getContentPane().add(panel_1);
-		panel_1.setLayout(null);
-		
-		lblNewLabel = new JLabel("ID");
-		lblNewLabel.setForeground(SystemColor.textHighlight);
-		lblNewLabel.setFont(new Font("굴림", Font.PLAIN, 14));
-		lblNewLabel.setBounds(65, 45, 29, 15);
-		panel_1.add(lblNewLabel);
+		lname.setBounds(59, 221, 98, 21);
+		lname.setHorizontalAlignment(JLabel.RIGHT);
+		f.getContentPane().add(lname);
+		lname.setFont(new Font("THE스피드", Font.BOLD, 17));
 		
 		lid =  new JLabel(UserVo.user.getId());
-		lid.setBounds(157, 42, 116, 21);
-		panel_1.add(lid);
-		
-		JButton btgLogin = new JButton("로그인 하러 가기");
-		btgLogin.setBounds(101, 149, 132, 23);
-		panel_1.add(btgLogin);
-		btgLogin.addActionListener(this);
-		
-		JLabel lblNewLabel_1 = new JLabel("\uACC4\uC88C\uBC88\uD638");
-		lblNewLabel_1.setForeground(SystemColor.textHighlight);
-		lblNewLabel_1.setFont(new Font("굴림", Font.PLAIN, 14));
-		lblNewLabel_1.setBounds(65, 93, 67, 15);
-		panel_1.add(lblNewLabel_1);
+		lid.setFont(new Font("THE스피드", Font.BOLD, 17));
+		lid.setBounds(245, 258, 116, 21);
+		f.getContentPane().add(lid);
 		
 		tfcAcc = new JLabel(dao.account);
-		tfcAcc.setBounds(157, 90, 116, 21);
-		panel_1.add(tfcAcc);
+		tfcAcc.setFont(new Font("THE스피드", Font.BOLD, 17));
+		tfcAcc.setBounds(224, 298, 116, 21);
+		f.getContentPane().add(tfcAcc);
+		
+		btgLogin = new JButton("");
+		btgLogin.setContentAreaFilled(false);
+		btgLogin.setBorderPainted(false);
+		btgLogin.setFocusPainted(false);
+		btgLogin.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\go.png"));
+		btgLogin.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\go_1.png"));
+		btgLogin.setBounds(167, 340, 159, 68);
+		f.getContentPane().add(btgLogin);
+		btgLogin.addActionListener(this);
+		f.getContentPane().add(layerpane);
 		f.setVisible(true);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equals("로그인 하러 가기")) {
+		if(e.getSource() == btgLogin) {
 
 			f.setVisible(false);
 			new Login();

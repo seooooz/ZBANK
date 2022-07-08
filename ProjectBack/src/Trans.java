@@ -1,23 +1,41 @@
 import java.awt.EventQueue;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
+import java.awt.Font;
+import javax.swing.ImageIcon;
 
 public class Trans  implements ActionListener{
 
 	JFrame f;
-	JButton bMain, bTrans;
-	JLabel lid, ltxid, ltxacc, tfShowAcc;
+	JButton bMain, bTrans, btnNewButton;
+	JLabel ltxid, ltxacc, tfShowAcc;
 	private JTextField tfFoundId;
 	private JTextField tfInputAcc;
 	private JTextField tfTransMoney;
 	BankIdAccountDAO dao;
 	TransDAO tsdao;
 	TransVo v;
+	
+	BufferedImage img = null;
+
+	class myPanel extends JPanel {
+		public void paint(Graphics g) {
+			g.drawImage(img, 0, 0, null);
+		}
+	}
 	
 	public Trans() {
 		
@@ -26,90 +44,120 @@ public class Trans  implements ActionListener{
 		
 		tsdao = new TransDAO();
 		
-		f = new JFrame("메인");
-		ltxid = new JLabel(MemberVo.user.getId());
-		ltxacc = new JLabel(dao.account);
+		f = new JFrame("이체");
 		
+		JLayeredPane layerpane = new JLayeredPane();
+		layerpane.setLocation(0, 0);
+		layerpane.setSize(510, 740);
+
+		try {
+			img = ImageIO.read(new File("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\Trans.png"));
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "실패");
+			System.exit(0);
+		}
+
+		myPanel panel = new myPanel();
+		panel.setSize(510, 740);
+		layerpane.add(panel);
+		layerpane.setLayout(null);
+
+		f.setBounds(700, 50, 510, 740);
 		
-		
-		bMain = new JButton("\uBA54\uC778");
-		bTrans = new JButton("송금");
-		bMain.addActionListener(this);
-		bTrans.addActionListener(this);
-		
-		ltxid.setBounds(240, 5, 82, 25);
-		ltxacc.setBounds(135, 34, 187, 25);
-		bMain.setBounds(12, 10, 57, 30);
-		bTrans.setBounds(106, 509, 122, 30);
-		
-		f.setSize(350, 600);
 		f.setLocationRelativeTo(null);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.getContentPane().setLayout(null);
-		f.getContentPane().add(bMain);
-		f.getContentPane().add(bTrans);
-		f.getContentPane().add(ltxid);
-		f.getContentPane().add(ltxacc);
-		lid = new JLabel("ID : ", JLabel.RIGHT);
-		lid.setBounds(204, 7, 32, 20);
-		f.getContentPane().add(lid);
 		
-		JLabel lFoundID = new JLabel("ID \uCC3E\uAE30");
-		lFoundID.setBounds(65, 141, 39, 15);
-		f.getContentPane().add(lFoundID);
 		
 		tfFoundId = new JTextField();
-		tfFoundId.setBounds(135, 138, 140, 21);
+		tfFoundId.setFont(new Font("THE스피드", Font.PLAIN, 16));
+		tfFoundId.setBounds(198, 216, 140, 21);
 		f.getContentPane().add(tfFoundId);
 		tfFoundId.setColumns(10);
 		
+		btnNewButton = new JButton("");
+		btnNewButton.setContentAreaFilled(false);
+		btnNewButton.setBorderPainted(false);
+		btnNewButton.setFocusPainted(false);
+		btnNewButton.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\select.png"));
+		btnNewButton.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\select_1.png"));
+		btnNewButton.setBounds(213, 255, 66, 39);
+		f.getContentPane().add(btnNewButton);
+		
 		tfShowAcc = new JLabel();
-		tfShowAcc.setBounds(48, 197, 227, 21);
+		tfShowAcc.setHorizontalAlignment(JLabel.CENTER);
+		tfShowAcc.setFont(new Font("THE스피드", Font.BOLD, 18));
+		tfShowAcc.setBounds(177, 299, 140, 39);
 		f.getContentPane().add(tfShowAcc);
 		
-		JLabel lInputAcc = new JLabel("\uACC4\uC88C\uBC88\uD638");
-		lInputAcc.setBounds(65, 326, 58, 15);
-		f.getContentPane().add(lInputAcc);
-		
 		tfInputAcc = new JTextField();
-		tfInputAcc.setBounds(135, 323, 140, 21);
+		tfInputAcc.setFont(new Font("THE스피드", Font.BOLD, 15));
+		tfInputAcc.setBounds(209, 435, 140, 21);
 		f.getContentPane().add(tfInputAcc);
+		bTrans = new JButton("");
+		bTrans.setContentAreaFilled(false);
+		bTrans.setBorderPainted(false);
+		bTrans.setFocusPainted(false);
+		bTrans.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\trans.png"));
+		bTrans.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\trans_1.png"));
+		bTrans.setBounds(198, 577, 97, 58);
+		f.getContentPane().add(bTrans);
 		
 		tfTransMoney = new JTextField();
-		tfTransMoney.setBounds(48, 402, 212, 21);
+		tfTransMoney.setHorizontalAlignment(JLabel.RIGHT);
+		tfTransMoney.setFont(new Font("THE스피드", Font.PLAIN, 18));
+		tfTransMoney.setBounds(187, 517, 140, 21);
 		f.getContentPane().add(tfTransMoney);
-		
-		JLabel lWon = new JLabel("\uC6D0");
-		lWon.setBounds(266, 405, 20, 15);
-		f.getContentPane().add(lWon);
-		
-		JButton btnNewButton = new JButton("조회");
-		btnNewButton.setBounds(114, 164, 97, 23);
-		f.getContentPane().add(btnNewButton);
+		bTrans.addActionListener(this);
 		btnNewButton.addActionListener(this);
+		ltxid = new JLabel(MemberVo.user.getId());
+		ltxid.setHorizontalAlignment(JLabel.RIGHT);
+		ltxid.setFont(new Font("THE스피드", Font.PLAIN, 15));
+		ltxid.setBounds(367, 10, 101, 25);
+		f.getContentPane().add(ltxid);
+		ltxacc = new JLabel(dao.account);
+		ltxacc.setHorizontalAlignment(JLabel.RIGHT);
+		ltxacc.setFont(new Font("THE스피드", Font.PLAIN, 15));
+		ltxacc.setBounds(367, 37, 101, 25);
+		f.getContentPane().add(ltxacc);
+		
+		bMain = new JButton("");
+		bMain.setContentAreaFilled(false);
+		bMain.setBorderPainted(false);
+		bMain.setFocusPainted(false);
+		bMain.setBounds(23, 16, 57, 58);
+		bMain.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main.png"));
+		bMain.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main_1.png"));
+		bMain.addActionListener(this);
+		f.getContentPane().add(bMain);
+		
+		
+		f.getContentPane().add(layerpane);
 		f.setVisible(true);
 		
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equals("메인")) {
-			new Bank();
+		if(e.getSource() == bMain) {
 			f.setVisible(false);
+			new Bank();
 		}
-		if(e.getActionCommand().equals("조회")) {
+		if(e.getSource() == btnNewButton) {
 			v = new TransVo(tfFoundId.getText()); 
 			tsdao.list(v);
+			TransVo.recive(v);
 			tfShowAcc.setText(tsdao.account);
 			tfInputAcc.setText(tsdao.account);
 		}
 		
-		if(e.getActionCommand().equals("송금")) {
+		if(e.getSource() == bTrans) {
 			v = new TransVo(Integer.valueOf(tfTransMoney.getText())); 
+			TransVo.m(v);
 			tsdao.list2(v);
 			tsdao.list3(v);
 			tsdao.list4(v);
 			f.setVisible(false);
-			new Bank();
+			new Success();
 			
 		}
 		
