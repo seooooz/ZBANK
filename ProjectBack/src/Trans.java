@@ -156,6 +156,7 @@ public class Trans  implements ActionListener{
 			tsdao.list2(v);
 			tsdao.list3(v);
 			tsdao.list4(v);
+			tsdao.tsnumcount(MemberVo.user);
 			f.setVisible(false);
 			new Success();
 			

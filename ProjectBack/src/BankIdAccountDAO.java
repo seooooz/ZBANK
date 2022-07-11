@@ -19,6 +19,7 @@ public class BankIdAccountDAO {
 	String name;
 	String id;
 	String account;
+	String utype;
 	int balance;
 
 	public boolean list(MemberVo v) {
@@ -27,13 +28,14 @@ public class BankIdAccountDAO {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, user, password);
 
-			String sql = "select id, account from usermember where id = '" + v.getId() + "'";
+			String sql = "select id, account, utype from usermember where id = '" + v.getId() + "'";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				id = rs.getString("id");
 				account = rs.getString("account");
+				utype = rs.getString("utype");
 			}
 
 		} catch (Exception e) {

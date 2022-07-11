@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 
 public class Bank implements ActionListener {
 	JFrame f;
-	JButton bCheck, bTrans, bdeposit;
+	JButton bCheck, bTrans, bdeposit, bmypage;
 	JLabel ltxid, lacc, textField;
 	ImageIcon icon;
 	BankIdAccountDAO dao;
@@ -115,6 +115,17 @@ public class Bank implements ActionListener {
 		bCheck.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\check_1.png"));
 		bCheck.addActionListener(this);
 		
+		//버튼) 마이페이지
+		bmypage = new JButton("");
+		bmypage.setContentAreaFilled(false);
+		bmypage.setBorderPainted(false);
+		bmypage.setFocusPainted(false);
+		bmypage.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main.png"));
+		bmypage.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main_1.png"));
+		bmypage.setBounds(61, 103, 57, 55);
+		bmypage.addActionListener(this);
+		f.getContentPane().add(bmypage);
+		
 		
 		f.getContentPane().add(layerpane);
 		f.setVisible(true);
@@ -133,6 +144,10 @@ public class Bank implements ActionListener {
 		if (e.getSource()==bdeposit) {
 			f.setVisible(false);
 			new Deposit();
+		}
+		if (e.getSource()==bmypage) {
+			f.setVisible(false);
+			new Mypage();
 		}
 
 	}

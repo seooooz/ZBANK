@@ -100,15 +100,23 @@ public class Login implements ActionListener {
 				pf.grabFocus();
 				return;
 			} else {
-
+				
 				MemberVo vo = new MemberVo(id.getText(), pf.getText());
 				boolean b = dao.list(vo);
 
 				if (b == true) {
-					JOptionPane.showMessageDialog(null, "로그인 성공", "성공", JOptionPane.PLAIN_MESSAGE);
-					MemberVo.userinit(vo);
-					f.setVisible(false);
-					new Bank();
+					if(id.getText().equals("admin") && pf.getText().equals("admin")) {
+						f.setVisible(false);
+						new MenuJTabaleExam();
+						
+					} else {
+						
+						JOptionPane.showMessageDialog(null, "로그인 성공", "성공", JOptionPane.PLAIN_MESSAGE);
+						MemberVo.userinit(vo);
+						f.setVisible(false);
+						new Bank();
+					}
+					
 
 				} else {
 					JOptionPane.showMessageDialog(null, "id와 비밀번호를 확인해주세요", "실패", JOptionPane.WARNING_MESSAGE);

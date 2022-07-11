@@ -85,5 +85,34 @@ public class HelloDAO {
 		return false;
 	}
 	
+	public boolean admin(UserVo nv) {
+
+	      try {
+	         Class.forName(driver);
+	         conn = DriverManager.getConnection(url, user, password);
+
+	         String sql = "UPDATE admin SET ADACCOUNT = '"+ account +"' WHERE adid = '"+ nv.getId() +"'";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.executeUpdate();
+	         
+
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      } finally {
+	         try {
+	            if (conn != null)
+	               conn.close();
+	            if (pstmt != null)
+	               pstmt.close();
+
+	         } catch (SQLException e) {
+	            e.printStackTrace();
+	         }
+
+	      }
+	      return false;
+	   }
 	
 }

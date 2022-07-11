@@ -116,7 +116,7 @@ public class Check implements ActionListener {
 		
 		
 		
-		
+		//Äõ¸®¹®
 		
 		try {
 			dao.list(MemberVo.user);

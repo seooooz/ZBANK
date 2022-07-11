@@ -97,7 +97,7 @@ public class Hello implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btgLogin) {
-
+			dao.admin(UserVo.user);
 			f.setVisible(false);
 			new Login();
 		}

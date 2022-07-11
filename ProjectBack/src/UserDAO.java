@@ -27,6 +27,7 @@ public class UserDAO {
 
 			String sql = "insert all into signup(name, id, password, sdate) values (?,?,?, sysdate)"
 					+ "into usermember(id, account, balance) values(?, useraccount.NEXTVAL,0)"
+					+ "into admin(adname, adid) values (?, ?)"
 					+ "select * from dual";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -34,6 +35,8 @@ public class UserDAO {
 			pstmt.setString(2, uv.getId());
 			pstmt.setString(3, uv.getPassword());
 			pstmt.setString(4, uv.getId());
+			pstmt.setString(5, uv.getName());
+			pstmt.setString(6, uv.getId());
 
 			pstmt.executeUpdate();
 			
@@ -66,4 +69,6 @@ public class UserDAO {
 		}
 		return false;
 	}
+	
+	
 }

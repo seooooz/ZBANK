@@ -206,11 +206,6 @@ public class TransDAO {
 				
 				pstmt.executeUpdate();
 				
-//				if(rs.next()) {
-//					myaccount = rs.getString("account");
-//				}
-//				
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
@@ -362,6 +357,44 @@ public class TransDAO {
 				}
 				
 //		
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (conn != null)
+						conn.close();
+					if (pstmt != null)
+						pstmt.close();
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+			}
+			return false;
+		}
+		
+		public boolean tsnumcount(MemberVo v) {
+
+			try {
+				
+				dao.list(MemberVo.user);
+				
+				Class.forName(driver);
+				conn = DriverManager.getConnection(url, user, password);
+
+				String sql = "UPDATE admin SET adtsnumber = (SELECT COUNT(tsnumber) FROM TSHISTORY WHERE SENDER ='" + dao.account + "') WHERE adid ='"+ dao.id +"'";
+
+				pstmt = conn.prepareStatement(sql);
+				
+				
+				pstmt.executeUpdate();
+				
+//				if(rs.next()) {
+//					myaccount = rs.getString("account");
+//				}
+//				
 
 			} catch (Exception e) {
 				e.printStackTrace();
