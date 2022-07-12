@@ -122,7 +122,7 @@ public class Bank implements ActionListener {
 		bmypage.setFocusPainted(false);
 		bmypage.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main.png"));
 		bmypage.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main_1.png"));
-		bmypage.setBounds(61, 103, 57, 55);
+		bmypage.setBounds(66, 113, 57, 55);
 		bmypage.addActionListener(this);
 		f.getContentPane().add(bmypage);
 		

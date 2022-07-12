@@ -92,7 +92,8 @@ public class  UserJDailogGUI extends JDialog implements ActionListener{
        
         setSize(300,250);
         setVisible(true);
- 
+        
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
        
         //이벤트등록

@@ -21,6 +21,8 @@ public class UserDefaultJTableDAO {
     Statement st;
     PreparedStatement ps;
     ResultSet rs;
+    
+    String account;
  
     /**
      * 로드 연결을 위한 생성자
@@ -115,7 +117,9 @@ public class UserDefaultJTableDAO {
  
             while (rs.next()) {
                 Object data[] = { rs.getString(1), rs.getString(2),
-                        rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6) };
+                        rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6) };
+                
+                account = rs.getString(3);
  
                 t_model.addRow(data); //DefaultTableModel에 레코드 추가
             }
@@ -126,6 +130,33 @@ public class UserDefaultJTableDAO {
             dbClose();
         }
     }//userSelectAll()
+    
+    /**
+     * ID에 해당하는 레코드 삭제하기 하기전 tshistory 변경
+     * */
+    
+    public int tsUpdate() {
+        int result = 0;
+        String sql = "UPDATE tshistory SET sender='0', receiver='0' WHERE sender=? or receiver=?";
+ 
+        try {
+            ps = con.prepareStatement(sql);
+            // ?의 순서대로 값 넣기
+            ps.setString(1, account);
+            ps.setString(2, account);
+ 
+            // 실행하기
+            result = ps.executeUpdate();
+ 
+        } catch (SQLException e) {
+            System.out.println(e + "=> tsUpdate fail");
+        } finally {
+            dbClose();
+        }
+ 
+        return result;
+    }//tsUpdate()
+    
  
     /**
      * ID에 해당하는 레코드 삭제하기
@@ -133,7 +164,7 @@ public class UserDefaultJTableDAO {
     public int userDelete(String id) {
         int result = 0;
         try {
-            ps = con.prepareStatement("delete admin where adid = ? ");
+            ps = con.prepareStatement("delete from admin where adid = ? ");
             ps.setString(1, id.trim());
             result = ps.executeUpdate();
  
@@ -146,10 +177,28 @@ public class UserDefaultJTableDAO {
         return result;
     }//userDelete()
     
+    public int tsDelete() {
+        int result = 0;
+        try {
+//            ps = con.prepareStatement("delete from tshistory where sender = ? or receiver = ?");
+            ps = con.prepareStatement("delete from tshistory where sender = ?");
+            ps.setString(1, account);
+//            ps.setString(2, account);
+            result = ps.executeUpdate();
+ 
+        } catch (SQLException e) {
+            System.out.println(e + "=> tsDelete fail");
+        }finally {
+            dbClose();
+        }
+ 
+        return result;
+    }//signupDelete()
+    
     public int userMemberDelete(String id) {
         int result = 0;
         try {
-            ps = con.prepareStatement("delete usermember where id = ? ");
+            ps = con.prepareStatement("delete from usermember where id = ? ");
             ps.setString(1, id.trim());
             result = ps.executeUpdate();
  
@@ -165,12 +214,12 @@ public class UserDefaultJTableDAO {
     public int signupDelete(String id) {
         int result = 0;
         try {
-            ps = con.prepareStatement("delete signup where id = ? ");
+            ps = con.prepareStatement("delete from signup where id = ? ");
             ps.setString(1, id.trim());
             result = ps.executeUpdate();
  
         } catch (SQLException e) {
-            System.out.println(e + "=> userDelete fail");
+            System.out.println(e + "=> signupDelete fail");
         }finally {
             dbClose();
         }
@@ -270,7 +319,7 @@ public class UserDefaultJTableDAO {
  
             while (rs.next()) {
                 Object data[] = { rs.getString(1), rs.getString(2),
-                        rs.getInt(3), rs.getString(4) };
+                        rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6)  };
  
                 dt.addRow(data);
             }

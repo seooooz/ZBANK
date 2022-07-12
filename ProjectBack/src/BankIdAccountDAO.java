@@ -85,5 +85,57 @@ public class BankIdAccountDAO {
 		return false;
 	}
 	
+	public boolean userupdate() {
+
+		try {
+			Class.forName(driver);
+			conn = DriverManager.getConnection(url, user, password);
+
+			String sql = "UPDATE usermember SET UTYPE  = 'Å»Åð½ÅÃ»' WHERE id = '" + MemberVo.user.getId() + "'";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null)
+					conn.close();
+				if (pstmt != null)
+					pstmt.close();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
+		return false;
+	}
 	
+	public boolean adminupdate() {
+
+		try {
+			Class.forName(driver);
+			conn = DriverManager.getConnection(url, user, password);
+
+			String sql = "UPDATE admin SET adTYPE  = 'Å»Åð½ÅÃ»' WHERE adid = '" + MemberVo.user.getId() + "'";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null)
+					conn.close();
+				if (pstmt != null)
+					pstmt.close();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
+		return false;
+	}
 }

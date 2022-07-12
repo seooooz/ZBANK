@@ -71,6 +71,7 @@ public class MenuJTabaleExam extends JFrame implements ActionListener {
         setSize(500, 400);
         setVisible(true);
  
+        super.setLocationRelativeTo(null);
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
  
         // 이벤트등록
@@ -117,6 +118,8 @@ public class MenuJTabaleExam extends JFrame implements ActionListener {
             System.out.println("값 : " + obj);
  
             if (dao.userDelete(obj.toString()) > 0) {
+            	dao.tsUpdate();
+            	dao.tsDelete();
             	dao.userMemberDelete(obj.toString());
             	dao.signupDelete(obj.toString());
                 UserJDailogGUI.messageBox(this, "레코드 삭제되었습니다.");

@@ -14,6 +14,10 @@ public class MemberVo {
 
 	}
 
+	public MemberVo(String password) {
+		this.password = password;
+	}
+	
 	public MemberVo(String id, String password) {
 		this.id = id;
 		this.password = password;
