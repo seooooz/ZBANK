@@ -13,19 +13,47 @@ public class HelloDAO {
 	String user = "c##green";
 	String password = "green1234";
 
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs;
+	private Connection conn = null;
+	private PreparedStatement pstmt = null;
+	private ResultSet rs;
 	String name;
 	String id;
 	String account;
-
-	public boolean list(UserVo nv) {
-
+	
+	/**
+	 * 로드 연결을 위한 생성자
+	 */
+	public HelloDAO() {
 		try {
+			// 로드
 			Class.forName(driver);
+			// 연결
 			conn = DriverManager.getConnection(url, user, password);
 
+		} catch (ClassNotFoundException e) {
+			System.out.println(e + "=> 로드 fail");
+		} catch (SQLException e) {
+			System.out.println(e + "=> 연결 fail");
+		}
+	}// 생성자
+
+	/**
+	 * DB닫기 기능 메소드
+	 */
+	public void dbClose() {
+		try {
+			if (rs != null)
+				rs.close();
+			if (pstmt != null)
+				pstmt.close();
+		} catch (Exception e) {
+			System.out.println(e + "=> dbClose fail");
+		}
+	}// dbClose() ---
+
+	public boolean list(MemberVo nv) {
+
+		try {
 			String sql = "select name, id from signup where id = '" + nv.getId() + "'";
 					
 			pstmt = conn.prepareStatement(sql);
@@ -36,29 +64,17 @@ public class HelloDAO {
 				id = rs.getString("id");
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println(e + "=>  list fail");
 		} finally {
-			try {
-				if (conn != null)
-					conn.close();
-				if (pstmt != null)
-					pstmt.close();
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			dbClose();
 		}
 		return false;
 	}
 	
-	public boolean list1(UserVo nv) {
+	public boolean list1(MemberVo nv) {
 
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, user, password);
-
 			String sql = "select account from usermember where id = '" + nv.getId() + "'";
 					
 			pstmt = conn.prepareStatement(sql);
@@ -68,29 +84,17 @@ public class HelloDAO {
 				account = rs.getString("account");
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println(e + "=>  list fail");
 		} finally {
-			try {
-				if (conn != null)
-					conn.close();
-				if (pstmt != null)
-					pstmt.close();
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			dbClose();
 		}
 		return false;
 	}
 	
-	public boolean admin(UserVo nv) {
+	public boolean admin(MemberVo nv) {
 
 	      try {
-	         Class.forName(driver);
-	         conn = DriverManager.getConnection(url, user, password);
-
 	         String sql = "UPDATE admin SET ADACCOUNT = '"+ account +"' WHERE adid = '"+ nv.getId() +"'";
 	         
 	         pstmt = conn.prepareStatement(sql);
@@ -98,20 +102,11 @@ public class HelloDAO {
 	         pstmt.executeUpdate();
 	         
 
-	      } catch (Exception e) {
-	         e.printStackTrace();
-	      } finally {
-	         try {
-	            if (conn != null)
-	               conn.close();
-	            if (pstmt != null)
-	               pstmt.close();
-
-	         } catch (SQLException e) {
-	            e.printStackTrace();
-	         }
-
-	      }
+	      } catch (SQLException e) {
+				System.out.println(e + "=>  list fail");
+			} finally {
+				dbClose();
+			}
 	      return false;
 	   }
 	

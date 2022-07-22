@@ -15,74 +15,108 @@ public class MemberDAO {
 
 	private Connection conn;
 	private Statement stmt;
-	PreparedStatement pstmt;
+	private PreparedStatement pstmt;
 	private ResultSet rs;
+	
+	/**
+	 * 로드 연결을 위한 생성자
+	 */
+	public MemberDAO() {
+		try {
+			// 로드
+			Class.forName(driver);
+			// 연결
+			conn = DriverManager.getConnection(url, user, password);
+
+		} catch (ClassNotFoundException e) {
+			System.out.println(e + "=> 로드 fail");
+		} catch (SQLException e) {
+			System.out.println(e + "=> 연결 fail");
+		}
+	}// 생성자
+
+	/**
+	 * DB닫기 기능 메소드
+	 */
+	public void dbClose() {
+		try {
+			if (rs != null)
+				rs.close();
+			if (stmt != null)
+				stmt.close();
+			if (pstmt != null)
+				pstmt.close();
+		} catch (Exception e) {
+			System.out.println(e + "=> dbClose fail");
+		}
+	}// dbClose() ---
+
 
 	public boolean list(MemberVo p) {
 
 		try {
-			connDB();
-
-			String query = "SELECT id, password FROM signup WHERE id='" + p.getId() + "' AND password ='"+ p.getPassword() + "'";
+			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			
+			String query = "SELECT*FROM signup WHERE id='" + p.getId() + "' AND password ='"+ p.getPassword() + "'";
 
 			rs = stmt.executeQuery(query);
 			// 포인터 이동
 			rs.last();
 
 			if (rs.getRow() == 0) {
-//                System.out.println("0 row selected.....");
+                System.out.println("0 row selected.....");
 			} else {
 				return true;
 			}
 						
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println(e + "=>  list fail");
+		} finally {
+			dbClose();
 		}
 
 		return false;
 	}
 
-	public void connDB() {
-		try {
-			Class.forName(driver);
-//	            System.out.println("jdbc driver loading success.");
-			conn = DriverManager.getConnection(url, user, password);
-//	            System.out.println("oracle connection success.");
-			// stmt = con.createStatement();
-			// 포인토 이동한거 구현하기 위한 명령어들
-			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-	            System.out.println("statement create success.");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-
-	public boolean passupdate() {
+	public boolean passselect(String pw) {
+		boolean result = true;
 
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, user, password);
 
-			String sql = "UPDATE admin SET adTYPE  = '탈퇴신청' WHERE adid = '" + MemberVo.user.getId() + "'";
+			String sql = "SELECT*FROM signup WHERE id='" + MemberVo.user.getId() + "' AND password ='"+ pw + "'";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
+			
+			if(rs.next())
+				result = false;
+			
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println(e + "=>  list fail");
 		} finally {
-			try {
-				if (conn != null)
-					conn.close();
-				if (pstmt != null)
-					pstmt.close();
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			dbClose();
 		}
-		return false;
+		return result;
 	}
+
+	public boolean passupdate(String pass) {
+
+		try {
+
+			String sql = "UPDATE signup SET password  = ? WHERE id = '" + MemberVo.user.getId() + "'";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pass);
+			
+			rs = pstmt.executeQuery();
+
+		} catch (SQLException e) {
+			System.out.println(e + "=>  list fail");
+		} finally {
+			dbClose();
+		}
+		return true;
+	}
+
+	
 }

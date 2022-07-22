@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -17,12 +18,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Mypage implements ActionListener {
-	JFrame f;
-	JButton bremove, bmain, bchange;
-	JLabel ltxid, lacc, lbalance, lutype;
-	ImageIcon icon;
-	BankIdAccountDAO dao;
-	BufferedImage img = null;
+	private JFrame f;
+	private JButton bremove, bmain, bchange;
+	private JLabel ltxid, lacc, lbalance, lutype;
+	private ImageIcon icon;
+	private BankIdAccountDAO dao;
+	private BufferedImage img = null;
 
 	class myPanel extends JPanel {
 		public void paint(Graphics g) {
@@ -35,8 +36,6 @@ public class Mypage implements ActionListener {
 		dao = new BankIdAccountDAO();
 		dao.list(MemberVo.user);
 		dao.balan(MemberVo.user);
-//		dao.userupdate(MemberVo.user);
-//		dao.adminupdate(MemberVo.user);
 
 		f = new JFrame("ZBank");
 		f.getContentPane().setBackground(SystemColor.inactiveCaption);
@@ -93,37 +92,36 @@ public class Mypage implements ActionListener {
 		bremove.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\remove.png"));
 		bremove.setRolloverIcon(
 				new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\remove_1.png"));
-		
+
 		lutype = new JLabel(dao.utype);
 		lutype.setFont(new Font("THE스피드", Font.BOLD, 16));
 		lutype.setBounds(204, 165, 86, 35);
 		lutype.setHorizontalAlignment(JLabel.CENTER);
 		f.getContentPane().add(lutype);
 		bremove.addActionListener(this);
-		
-		
+
 		bmain = new JButton("");
 		bmain.setContentAreaFilled(false);
 		bmain.setBorderPainted(false);
 		bmain.setFocusPainted(false);
 		bmain.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main.png"));
-		bmain.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main_1.png"));
+		bmain.setRolloverIcon(
+				new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main_1.png"));
 		bmain.setBounds(25, 25, 57, 55);
 		bmain.addActionListener(this);
 		f.getContentPane().add(bmain);
-		
+
 		bchange = new JButton("");
 		bchange.setContentAreaFilled(false);
 		bchange.setBorderPainted(false);
 		bchange.setFocusPainted(false);
 		bchange.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\change.png"));
-		bchange.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\change_1.png"));
+		bchange.setRolloverIcon(
+				new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\change_1.png"));
 		bchange.setBounds(360, 25, 134, 38);
 		bchange.addActionListener(this);
 		f.getContentPane().add(bchange);
-		
-		
-		
+
 		f.getContentPane().add(layerpane);
 		f.setVisible(true);
 	}
@@ -132,18 +130,32 @@ public class Mypage implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == bmain) {
 			f.setVisible(false);
-			new Bank();
+			try {
+				new Bank();
+			} catch (URISyntaxException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
-		
+
 		if (e.getSource() == bchange) {
 			new PasswordUpdate();
-		}
-		
-		if (e.getSource() == bremove) {
-			dao.userupdate();
-			dao.adminupdate();
 			f.setVisible(false);
-			new Bank();
+		}
+
+		if (e.getSource() == bremove) {
+			int result = JOptionPane.showConfirmDialog(null, "탈퇴 신청을 하시겠습니까?", " ", JOptionPane.YES_NO_OPTION);
+			if (result == JOptionPane.YES_OPTION) {
+				dao.userupdate();
+				dao.adminupdate();
+				f.setVisible(false);
+				try {
+					new Bank();
+				} catch (URISyntaxException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
 		}
 
 	}

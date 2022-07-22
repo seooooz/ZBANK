@@ -1,4 +1,3 @@
-import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -6,25 +5,29 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 public class Login implements ActionListener {
-	private MemberDAO dao;
-	JFrame f;
-	JButton bLogin, bNew;
-	JTextField id;
-	JPasswordField pf; // 비밀번호 안보이게
-	BufferedImage img = null;
+	private MemberDAO dao = new MemberDAO();
+	private JFrame f;
+	private JButton bLogin, bNew;
+	private JTextField id;
+	private JPasswordField pf; // 비밀번호 안보이게
+	private BufferedImage img = null;
+	MemberVo vo;
+	
 
 	class myPanel extends JPanel {
 		public void paint(Graphics g) {
@@ -33,7 +36,13 @@ public class Login implements ActionListener {
 	}
 
 	public Login() {
-		dao = new MemberDAO();
+		   try {
+	            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");// LookAndFeel Windows 스타일 적용
+	            SwingUtilities.updateComponentTreeUI(f);
+	         } catch (Exception e) {
+
+	         }
+		
 		f = new JFrame("로그인");
 		f.getContentPane().setBackground(SystemColor.inactiveCaption);
 
@@ -73,20 +82,24 @@ public class Login implements ActionListener {
 		bNew.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\new_1.png"));
 		bNew.setBounds(288, 548, 122, 57);
 		f.getContentPane().add(bNew);
+		bNew.addActionListener(this);
 
 		bLogin = new JButton("");
 		bLogin.setContentAreaFilled(false);
 		bLogin.setBorderPainted(false);
 		bLogin.setFocusPainted(false);
 		bLogin.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\login.png"));
-		bLogin.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\login_1.png"));
+		bLogin.setRolloverIcon(
+				new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\login_1.png"));
 		bLogin.setBounds(83, 548, 122, 57);
 		f.getContentPane().add(bLogin);
 		bLogin.addActionListener(this);
-		bNew.addActionListener(this);
+
 		f.getContentPane().add(layerpane);
 		f.setVisible(true);
 	}
+
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -100,30 +113,34 @@ public class Login implements ActionListener {
 				pf.grabFocus();
 				return;
 			} else {
+				System.out.printf("비밀번호 %10s\n",pf.getText());
 				
-				MemberVo vo = new MemberVo(id.getText(), pf.getText());
+				vo = new MemberVo(id.getText(), pf.getText());
 				boolean b = dao.list(vo);
 
 				if (b == true) {
-					if(id.getText().equals("admin") && pf.getText().equals("admin")) {
+					if (id.getText().equals("admin") && pf.getText().equals("admin")) {
 						f.setVisible(false);
-						new MenuJTabaleExam();
-						
+						new Admin();
+
 					} else {
-						
+
 						JOptionPane.showMessageDialog(null, "로그인 성공", "성공", JOptionPane.PLAIN_MESSAGE);
 						MemberVo.userinit(vo);
 						f.setVisible(false);
-						new Bank();
+						try {
+							new Bank();
+						} catch (URISyntaxException e1) {
+							e1.printStackTrace();
+						}
 					}
-					
 
 				} else {
 					JOptionPane.showMessageDialog(null, "id와 비밀번호를 확인해주세요", "실패", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		}
-		if (e.getSource()==bNew) {
+		if (e.getSource() == bNew) {
 			f.setVisible(false);
 			new NewLogin();
 		}

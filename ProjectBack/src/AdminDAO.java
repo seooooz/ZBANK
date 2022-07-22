@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 import javax.swing.table.DefaultTableModel;
 
-public class UserDefaultJTableDAO {
+public class AdminDAO {
    
     /**
      * 필요한 변수선언
@@ -17,17 +17,17 @@ public class UserDefaultJTableDAO {
 	String user = "c##green";
 	String password = "green1234";
 	
-    Connection con;
-    Statement st;
-    PreparedStatement ps;
-    ResultSet rs;
+	private Connection con;
+	private Statement st;
+	private PreparedStatement pstmt;
+	private ResultSet rs;
     
     String account;
  
     /**
      * 로드 연결을 위한 생성자
      * */
-    public UserDefaultJTableDAO() {
+    public AdminDAO() {
         try {
             // 로드
             Class.forName(driver);
@@ -49,7 +49,7 @@ public class UserDefaultJTableDAO {
         try {
             if (rs != null) rs.close();
             if (st != null) st.close();
-            if (ps != null) ps.close();
+            if (pstmt != null) pstmt.close();
         } catch (Exception e) {
             System.out.println(e + "=> dbClose fail");
         }
@@ -62,9 +62,9 @@ public class UserDefaultJTableDAO {
         boolean result = true;
  
         try {
-            ps = con.prepareStatement("SELECT * FROM admin WHERE id=?");
-            ps.setString(1, id.trim());
-            rs = ps.executeQuery(); //실행
+            pstmt = con.prepareStatement("SELECT * FROM admin WHERE id=?");
+            pstmt.setString(1, id.trim());
+            rs = pstmt.executeQuery(); //실행
             if (rs.next())
                 result = false; //레코드가 존재하면 false
  
@@ -77,30 +77,7 @@ public class UserDefaultJTableDAO {
         return result;
  
     }//getIdByCheck()
- 
-//    /**
-//     * userlist 회원가입하는 기능 메소드
-//     * */
-//    public int userListInsert(UserJDailogGUI user) {
-//        int result = 0;
-//        try {
-//            ps = con.prepareStatement("insert into admin values(?,?,?,?)");
-//            ps.setString(1, user.id.getText());
-//            ps.setString(2, user.name.getText());
-//            ps.setInt(3, Integer.parseInt(user.account.getText()));
-//            ps.setString(4, user.adtype.getText());
-// 
-//            result = ps.executeUpdate(); //실행 -> 저장
-// 
-//        } catch (SQLException e) {
-//            System.out.println(e + "=> userListInsert fail");
-//        } finally {
-//            dbClose();
-//        }
-// 
-//        return result;
-// 
-//    }//userListInsert()
+    
  
     /**
      * userlist의 모든 레코드 조회
@@ -119,7 +96,9 @@ public class UserDefaultJTableDAO {
                 Object data[] = { rs.getString(1), rs.getString(2),
                         rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6) };
                 
-                account = rs.getString(3);
+//                account = rs.getString(3);
+                
+//                System.out.println(account);
  
                 t_model.addRow(data); //DefaultTableModel에 레코드 추가
             }
@@ -135,18 +114,18 @@ public class UserDefaultJTableDAO {
      * ID에 해당하는 레코드 삭제하기 하기전 tshistory 변경
      * */
     
-    public int tsUpdate() {
+    public int tsUpdate(String account) {
         int result = 0;
         String sql = "UPDATE tshistory SET sender='0', receiver='0' WHERE sender=? or receiver=?";
  
         try {
-            ps = con.prepareStatement(sql);
+            pstmt = con.prepareStatement(sql);
             // ?의 순서대로 값 넣기
-            ps.setString(1, account);
-            ps.setString(2, account);
+            pstmt.setString(1, account);
+            pstmt.setString(2, account);
  
             // 실행하기
-            result = ps.executeUpdate();
+            result = pstmt.executeUpdate();
  
         } catch (SQLException e) {
             System.out.println(e + "=> tsUpdate fail");
@@ -157,6 +136,8 @@ public class UserDefaultJTableDAO {
         return result;
     }//tsUpdate()
     
+    
+    
  
     /**
      * ID에 해당하는 레코드 삭제하기
@@ -164,9 +145,9 @@ public class UserDefaultJTableDAO {
     public int userDelete(String id) {
         int result = 0;
         try {
-            ps = con.prepareStatement("delete from admin where adid = ? ");
-            ps.setString(1, id.trim());
-            result = ps.executeUpdate();
+            pstmt = con.prepareStatement("delete from admin where adid = ? ");
+            pstmt.setString(1, id.trim());
+            result = pstmt.executeUpdate();
  
         } catch (SQLException e) {
             System.out.println(e + "=> userDelete fail");
@@ -177,14 +158,16 @@ public class UserDefaultJTableDAO {
         return result;
     }//userDelete()
     
-    public int tsDelete() {
+    
+    public int tsDelete(String account) {
         int result = 0;
         try {
-//            ps = con.prepareStatement("delete from tshistory where sender = ? or receiver = ?");
-            ps = con.prepareStatement("delete from tshistory where sender = ?");
-            ps.setString(1, account);
-//            ps.setString(2, account);
-            result = ps.executeUpdate();
+            pstmt = con.prepareStatement("delete from tshistory where sender = ? or receiver = ?");
+            pstmt.setString(1, account);
+            pstmt.setString(2, account);
+            result = pstmt.executeUpdate();
+            
+            System.out.println(account);
  
         } catch (SQLException e) {
             System.out.println(e + "=> tsDelete fail");
@@ -198,9 +181,9 @@ public class UserDefaultJTableDAO {
     public int userMemberDelete(String id) {
         int result = 0;
         try {
-            ps = con.prepareStatement("delete from usermember where id = ? ");
-            ps.setString(1, id.trim());
-            result = ps.executeUpdate();
+            pstmt = con.prepareStatement("delete from usermember where id = ? ");
+            pstmt.setString(1, id.trim());
+            result = pstmt.executeUpdate();
  
         } catch (SQLException e) {
             System.out.println(e + "=> userDelete fail");
@@ -214,9 +197,9 @@ public class UserDefaultJTableDAO {
     public int signupDelete(String id) {
         int result = 0;
         try {
-            ps = con.prepareStatement("delete from signup where id = ? ");
-            ps.setString(1, id.trim());
-            result = ps.executeUpdate();
+            pstmt = con.prepareStatement("delete from signup where id = ? ");
+            pstmt.setString(1, id.trim());
+            result = pstmt.executeUpdate();
  
         } catch (SQLException e) {
             System.out.println(e + "=> signupDelete fail");
@@ -230,18 +213,18 @@ public class UserDefaultJTableDAO {
     /**
      * ID에 해당하는 레코드 수정하기
      * */
-    public int userUpdate(UserJDailogGUI user) {
+    public int userUpdate(AdminJDailogGUI user) {
         int result = 0;
         String sql = "UPDATE admin SET adtype=?, addate = sysdate WHERE adid=?";
  
         try {
-            ps = con.prepareStatement(sql);
+            pstmt = con.prepareStatement(sql);
             // ?의 순서대로 값 넣기
-            ps.setString(1, user.adtype.getText());
-            ps.setString(2, user.id.getText().trim());
+            pstmt.setString(1, user.adtype.getText());
+            pstmt.setString(2, user.id.getText().trim());
  
             // 실행하기
-            result = ps.executeUpdate();
+            result = pstmt.executeUpdate();
  
         } catch (SQLException e) {
             System.out.println(e + "=> userUpdate fail");
@@ -252,18 +235,18 @@ public class UserDefaultJTableDAO {
         return result;
     }//userUpdate()
     
-    public int userMemberUpdate(UserJDailogGUI user) {
+    public int userMemberUpdate(AdminJDailogGUI user) {
         int result = 0;
         String sql = "UPDATE usermember SET utype=? WHERE id=?";
  
         try {
-            ps = con.prepareStatement(sql);
+            pstmt = con.prepareStatement(sql);
             // ?의 순서대로 값 넣기
-            ps.setString(1, user.adtype.getText());
-            ps.setString(2, user.id.getText().trim());
+            pstmt.setString(1, user.adtype.getText());
+            pstmt.setString(2, user.id.getText().trim());
  
             // 실행하기
-            result = ps.executeUpdate();
+            result = pstmt.executeUpdate();
  
         } catch (SQLException e) {
             System.out.println(e + "=> userMemberUpdate fail");
@@ -276,18 +259,18 @@ public class UserDefaultJTableDAO {
 
     
     //admin테이블 adtsnumber 이체, 채우기 할때마다 count해서 update
-    public int tsnumcount(UserJDailogGUI user) {
+    public int tsnumcount(AdminJDailogGUI user) {
         int result = 0;
         String sql = "UPDATE admin SET adtsnumber = (SELECT COUNT(tsnumber) FROM TSHISTORY WHERE SENDER =?) WHERE adid =?";
  
         try {
-            ps = con.prepareStatement(sql);
+            pstmt = con.prepareStatement(sql);
             // ?의 순서대로 값 넣기
-            ps.setString(1, user.account.getText());
-            ps.setString(2, user.id.getText().trim());
+            pstmt.setString(1, user.account.getText());
+            pstmt.setString(2, user.id.getText().trim());
  
             // 실행하기
-            result = ps.executeUpdate();
+            result = pstmt.executeUpdate();
  
         } catch (SQLException e) {
             System.out.println(e + "=> tsnumcountUpdate fail");

@@ -11,11 +11,11 @@ public class TransDAO {
 	String user = "c##green";
 	String password = "green1234";
 
-	Connection conn = null;
-	PreparedStatement pstmt = null;
+	private Connection conn = null;
+	private PreparedStatement pstmt = null;
 	private Statement stmt;
 	private ResultSet rs;
-	
+
 	String name;
 	String id;
 	String account;
@@ -24,393 +24,275 @@ public class TransDAO {
 	String tsdate;
 	int balance;
 	BankIdAccountDAO dao = new BankIdAccountDAO();
-	
+
+	/**
+	 * 로드 연결을 위한 생성자
+	 */
+	public TransDAO() {
+		try {
+			// 로드
+			Class.forName(driver);
+			// 연결
+			conn = DriverManager.getConnection(url, user, password);
+
+		} catch (ClassNotFoundException e) {
+			System.out.println(e + "=> 로드 fail");
+		} catch (SQLException e) {
+			System.out.println(e + "=> 연결 fail");
+		}
+	}// 생성자
+
+	/**
+	 * DB닫기 기능 메소드
+	 */
+	public void dbClose() {
+		try {
+			if (rs != null)
+				rs.close();
+			if (stmt != null)
+				stmt.close();
+			if (pstmt != null)
+				pstmt.close();
+		} catch (Exception e) {
+			System.out.println(e + "=> dbClose fail");
+		}
+	}// dbClose() ---
 
 	public boolean list(TransVo tv) {
 
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, user, password);
-
 			String sql = "SELECT account FROM usermember WHERE id='" + tv.getId() + "'";
 
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
+
+			if (rs.next()) {
 				account = rs.getString("account");
-				System.out.println(account);
+				return true;
 			}
-			
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println(e + "=>  list fail");
 		} finally {
-			try {
-				if (conn != null)
-					conn.close();
-				if (pstmt != null)
-					pstmt.close();
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			dbClose();
 		}
 		return false;
 	}
-	
+
 	public boolean list1(TransVo tv) {
 
-			try {
-				
-				dao.list(MemberVo.user);
-				
-				Class.forName(driver);
-				conn = DriverManager.getConnection(url, user, password);
+		try {
 
-				String sql = "INSERT INTO tshistory(tsnumber, sender, receiver, tstype, cash, tsdate) values(tsnum.NEXTVAL,?,?,'채우기',?,sysdate)";
-						
+			dao.list(MemberVo.user);
 
-				pstmt = conn.prepareStatement(sql);
-				
-//				System.out.println(dao.account);
-				
-				pstmt.setString(1, dao.account);
-				pstmt.setString(2, dao.account);
-				pstmt.setInt(3, tv.getCash());
-				
-				pstmt.executeUpdate();
-				
-//				if(rs.next()) {
-//					myaccount = rs.getString("account");
-//				}
-//				
+			String sql = "INSERT INTO tshistory(tsnumber, sender, receiver, tstype, cash, tsdate) values(tsnum.NEXTVAL,?,?,'채우기',?,sysdate)";
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					if (conn != null)
-						conn.close();
-					if (pstmt != null)
-						pstmt.close();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dao.account);
+			pstmt.setString(2, dao.account);
+			pstmt.setInt(3, tv.getCash());
 
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+			pstmt.executeUpdate();
 
-			}
-			return false;
+		} catch (SQLException e) {
+			System.out.println(e + "=>  list1 fail");
+		} finally {
+			dbClose();
 		}
-	
-	//tshistory insert
+		return false;
+	}
+
+	// tshistory insert
 	public boolean list2(TransVo tv) {
 
 		try {
-			
+
 			dao.list(MemberVo.user);
-			
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, user, password);
 
 			String sql = "INSERT all INTO tshistory(tsnumber, sender, receiver, tstype, cash, tsdate) values(tsnum.NEXTVAL,?,?,'출금',?,sysdate)"
 					+ "INTO tshistory(tsnumber, sender, receiver, tstype, cash, tsdate) values(tsnum.NEXTVAL+1,?,?,'입금',?,sysdate)"
 					+ "select * from dual";
 
 			pstmt = conn.prepareStatement(sql);
-			
-//			System.out.println(dao.account);
-			
 			pstmt.setString(1, dao.account);
 			pstmt.setString(2, account);
 			pstmt.setInt(3, tv.getCash());
-			
+
 			pstmt.setString(4, account);
 			pstmt.setString(5, dao.account);
 			pstmt.setInt(6, tv.getCash());
-			
+
 			pstmt.executeUpdate();
-			
-//			if(rs.next()) {
-//				myaccount = rs.getString("account");
-//			}
-//			
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println(e + "=>  list2 fail");
 		} finally {
-			try {
-				if (conn != null)
-					conn.close();
-				if (pstmt != null)
-					pstmt.close();
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			dbClose();
 		}
 		return false;
 	}
-	//로그인한 사람 -> 다른사람 송금 (로그인한 사람 계좌 마이너스)
+
+	// 로그인한 사람 -> 다른사람 송금 (로그인한 사람 계좌 마이너스)
 	public boolean list3(TransVo tv) {
 
 		try {
-			
-			dao.list(MemberVo.user);
-			
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, user, password);
 
-			String sql = "update usermember set balance = balance - '" + tv.getCash() +"'where account = '"+ dao.account +"'";
+			dao.list(MemberVo.user);
+
+			String sql = "update usermember set balance = balance - '" + tv.getCash() + "'where account = '"
+					+ dao.account + "'";
 
 			pstmt = conn.prepareStatement(sql);
-			
 			pstmt.executeUpdate();
-			
-//			if(rs.next()) {
-//				myaccount = rs.getString("account");
-//			}
-//			
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println(e + "=>  list3 fail");
 		} finally {
-			try {
-				if (conn != null)
-					conn.close();
-				if (pstmt != null)
-					pstmt.close();
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			dbClose();
 		}
 		return false;
 	}
-	//다른사람 송금 -> 로그인한 사람 (다른사람 송금 계좌 플러스)
-		public boolean list4(TransVo tv) {
 
-			try {
-				
-				dao.list(MemberVo.user);
-				
-				Class.forName(driver);
-				conn = DriverManager.getConnection(url, user, password);
+	// 다른사람 송금 -> 로그인한 사람 (다른사람 송금 계좌 플러스)
+	public boolean list4(TransVo tv) {
 
-				String sql = "update usermember set balance = balance + '" + tv.getCash() +"'where account = '" + account +"'";
+		try {
 
-				pstmt = conn.prepareStatement(sql);
-				
-				pstmt.executeUpdate();
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					if (conn != null)
-						conn.close();
-					if (pstmt != null)
-						pstmt.close();
+			dao.list(MemberVo.user);
 
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+			String sql = "update usermember set balance = balance + '" + tv.getCash() + "'where account = '" + account
+					+ "'";
 
-			}
-			return false;
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println(e + "=>  list4 fail");
+		} finally {
+			dbClose();
 		}
-		
-		public boolean list5(TransVo tv) {
+		return false;
+	}
 
-			try {
-				
-				dao.list(MemberVo.user);
-				
-				Class.forName(driver);
-				conn = DriverManager.getConnection(url, user, password);
+	public boolean list5(TransVo tv) {
 
-				String sql = "update usermember set balance = balance + '" + tv.getCash() +"'where account = '" + dao.account +"'";
+		try {
 
-				pstmt = conn.prepareStatement(sql);
-				
-				pstmt.executeUpdate();
-				
+			dao.list(MemberVo.user);
+
+			String sql = "update usermember set balance = balance + '" + tv.getCash() + "'where account = '"
+					+ dao.account + "'";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
+
 //		
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					if (conn != null)
-						conn.close();
-					if (pstmt != null)
-						pstmt.close();
-
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-
-			}
-			return false;
+		} catch (SQLException e) {
+			System.out.println(e + "=>  list5 fail");
+		} finally {
+			dbClose();
 		}
-		
-		public boolean succ(TransVo tv) {
+		return false;
+	}
 
-			try {
-				
-				Class.forName(driver);
-				conn = DriverManager.getConnection(url, user, password);
-				
+	public boolean succ(TransVo tv) {
 
-				String sql = "SELECT s.name, u.id, u.account FROM SIGNUP s, USERMEMBER u "
-						+ "WHERE s.ID = u.ID  and u.id ='" + tv.getId() + "'";
+		try {
 
-				pstmt = conn.prepareStatement(sql);
-				rs = pstmt.executeQuery();
-				
-				while(rs.next()) {
-					name = rs.getString("name");
-					id = rs.getString("id");
-					account = rs.getString("account");
-					System.out.println(name);
-					System.out.println(id);
-					System.out.println(account);
-				}
-				
+			String sql = "SELECT s.name, u.id, u.account FROM SIGNUP s, USERMEMBER u "
+					+ "WHERE s.ID = u.ID  and u.id ='" + tv.getId() + "'";
+
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				name = rs.getString("name");
+				id = rs.getString("id");
+				account = rs.getString("account");
+				System.out.println(name);
+				System.out.println(id);
+				System.out.println(account);
+			}
+
 //		
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					if (conn != null)
-						conn.close();
-					if (pstmt != null)
-						pstmt.close();
-
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-
-			}
-			return false;
+		} catch (SQLException e) {
+			System.out.println(e + "=>  succ fail");
+		} finally {
+			dbClose();
 		}
-		public boolean succdate() {
+		return false;
+	}
 
-			try {
-				
-				Class.forName(driver);
-				conn = DriverManager.getConnection(url, user, password);
-				
+	public boolean succdate() {
 
-				String sql = "SELECT TSTYPE , MAX(TSDATE) FROM TSHISTORY "
-						+ "WHERE RECEIVER  = '"+ account +"' AND TSTYPE = '출금' GROUP BY TSTYPE";
+		try {
 
-				pstmt = conn.prepareStatement(sql);
-				rs = pstmt.executeQuery();
-				
-				while(rs.next()) {
-					tstype = rs.getString("tstype");
-					tsdate = rs.getString("MAX(TSDATE)");
-					System.out.println(tstype);
-					System.out.println(tsdate);
-				}
-				
+			String sql = "SELECT TSTYPE , MAX(TSDATE) FROM TSHISTORY " + "WHERE RECEIVER  = '" + account
+					+ "' AND TSTYPE = '출금' GROUP BY TSTYPE";
+
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				tstype = rs.getString("tstype");
+				tsdate = rs.getString("MAX(TSDATE)");
+				System.out.println(tstype);
+				System.out.println(tsdate);
+			}
+
 //		
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					if (conn != null)
-						conn.close();
-					if (pstmt != null)
-						pstmt.close();
-
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-
-			}
-			return false;
+		} catch (SQLException e) {
+			System.out.println(e + "=>  succdate fail");
+		} finally {
+			dbClose();
 		}
-		public boolean tranmybal() {
+		return false;
+	}
 
-			try {
-				
-				dao.list(MemberVo.user);
-				Class.forName(driver);
-				conn = DriverManager.getConnection(url, user, password);
-				
+	public boolean tranmybal() {
 
-				String sql = "SELECT balance FROM USERMEMBER WHERE ACCOUNT = '" + dao.account + "'";
+		try {
 
-				pstmt = conn.prepareStatement(sql);
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()) {
-					balance = rs.getInt("balance");
-					System.out.println(tsdate);
-				}
-				
+			dao.list(MemberVo.user);
+
+			String sql = "SELECT balance FROM USERMEMBER WHERE ACCOUNT = '" + dao.account + "'";
+
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				balance = rs.getInt("balance");
+				System.out.println(tsdate);
+			}
+
 //		
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					if (conn != null)
-						conn.close();
-					if (pstmt != null)
-						pstmt.close();
-
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-
-			}
-			return false;
+		} catch (SQLException e) {
+			System.out.println(e + "=>  tranmybal fail");
+		} finally {
+			dbClose();
 		}
-		
-		public boolean tsnumcount(MemberVo v) {
+		return false;
+	}
 
-			try {
-				
-				dao.list(MemberVo.user);
-				
-				Class.forName(driver);
-				conn = DriverManager.getConnection(url, user, password);
+	public boolean tsnumcount(MemberVo v) {
 
-				String sql = "UPDATE admin SET adtsnumber = (SELECT COUNT(tsnumber) FROM TSHISTORY WHERE SENDER ='" + dao.account + "') WHERE adid ='"+ dao.id +"'";
+		try {
 
-				pstmt = conn.prepareStatement(sql);
-				
-				
-				pstmt.executeUpdate();
-				
-//				if(rs.next()) {
-//					myaccount = rs.getString("account");
-//				}
-//				
+			dao.list(MemberVo.user);
+			String sql = "UPDATE admin SET adtsnumber = (SELECT COUNT(tsnumber) FROM TSHISTORY WHERE SENDER ='"
+					+ dao.account + "') WHERE adid ='" + dao.id + "'";
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					if (conn != null)
-						conn.close();
-					if (pstmt != null)
-						pstmt.close();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
 
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-
-			}
-			return false;
+		} catch (SQLException e) {
+			System.out.println(e + "=>  tsnumcount fail");
+		} finally {
+			dbClose();
 		}
+		return false;
+	}
 }
-

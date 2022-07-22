@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.SystemColor;
@@ -7,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -18,20 +21,41 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Bank implements ActionListener {
-	JFrame f;
-	JButton bCheck, bTrans, bdeposit, bmypage;
-	JLabel ltxid, lacc, textField;
-	ImageIcon icon;
-	BankIdAccountDAO dao;
-	BufferedImage img = null;
+	private JFrame f;
+	private JButton bCheck, bTrans, bdeposit, bmypage;
+	private JLabel ltxid, lacc, textField;
+	private ImageIcon icon;
+	private BankIdAccountDAO dao;
+	private BufferedImage img = null;
+	private JButton bmap;
 
 	class myPanel extends JPanel {
 		public void paint(Graphics g) {
 			g.drawImage(img, 0, 0, null);
 		}
 	}
+	
+	private static void open(URI uri) {
+		if (Desktop.isDesktopSupported()) {
+			try {
+				Desktop.getDesktop().browse(uri);
+			} catch (IOException e) {
+				/* TODO: error handling */ }
+		} else {
+			/* TODO: error handling */ }
+	}
 
-	public Bank() {
+	public Bank() throws URISyntaxException{
+		// 카카오맵 불러오기
+		final URI uri = new URI("http://localhost:8000/1.html");
+		class OpenUrlAction implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				open(uri);
+			}
+		}
+		
+		
 		// id랑 account 불러오기 (MemberVo static 메소드 사용)
 		dao = new BankIdAccountDAO();
 		dao.list(MemberVo.user);
@@ -121,10 +145,22 @@ public class Bank implements ActionListener {
 		bmypage.setBorderPainted(false);
 		bmypage.setFocusPainted(false);
 		bmypage.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main.png"));
-		bmypage.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main_1.png"));
+		bmypage.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\mypage.png"));
 		bmypage.setBounds(66, 113, 57, 55);
 		bmypage.addActionListener(this);
 		f.getContentPane().add(bmypage);
+		
+		//버튼) 카카오맵
+		bmap = new JButton("");
+		bmap.setContentAreaFilled(false);
+		bmap.setBorderPainted(false);
+		bmap.setFocusPainted(false);
+		bmap.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\map.png"));
+		bmap.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\map_1.png"));
+		bmap.setToolTipText(uri.toString());
+		bmap.addActionListener(new OpenUrlAction());
+		bmap.setBounds(409, 10, 57, 55);
+		f.getContentPane().add(bmap);
 		
 		
 		f.getContentPane().add(layerpane);
@@ -134,8 +170,8 @@ public class Bank implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()== bCheck) {
-			new Check();
 			f.setVisible(false);
+			new Check();
 		}
 		if (e.getSource()== bTrans) {
 			f.setVisible(false);
@@ -152,7 +188,7 @@ public class Bank implements ActionListener {
 
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws URISyntaxException {
 		new Bank();
 	}
 }

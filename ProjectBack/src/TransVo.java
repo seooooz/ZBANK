@@ -19,14 +19,6 @@ public class TransVo {
 
 	}
 
-	
-//	public TransVo(String account) {
-//		this.account = account;
-//	}
-//	public String getAccount() {
-//		return account;
-//	}
-	
 	public TransVo(String id) {
 		this.id = id;
 	}

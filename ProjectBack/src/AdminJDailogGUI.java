@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 
-public class  UserJDailogGUI extends JDialog implements ActionListener{
+public class  AdminJDailogGUI extends JDialog implements ActionListener{
    
     JPanel pw=new JPanel(new GridLayout(4,1));
     JPanel pc=new JPanel(new GridLayout(4,1));
@@ -33,16 +33,16 @@ public class  UserJDailogGUI extends JDialog implements ActionListener{
     JButton confirm;
     JButton reset=new JButton("취소");
  
-   MenuJTabaleExam me;
+   Admin me;
  
    JPanel idCkP =new JPanel(new BorderLayout());
    JButton idCkBtn = new JButton("IDCheck");
    
-   UserDefaultJTableDAO dao =new UserDefaultJTableDAO();
+   AdminDAO dao =new AdminDAO();
    
  
-    public UserJDailogGUI(MenuJTabaleExam me, String index){
-        super(me,"다이어로그");
+    public AdminJDailogGUI(Admin me, String index){
+        super(me,"회원 수정");
         this.me=me;
 //        if(index.equals("가입")){
 //            confirm=new JButton(index);
@@ -110,31 +110,21 @@ public class  UserJDailogGUI extends JDialog implements ActionListener{
     public void actionPerformed(ActionEvent e) {
        String btnLabel =e.getActionCommand();//이벤트주체 대한 Label 가져오기
        
-//       if(btnLabel.equals("가입")){
-//           if(dao.userListInsert(this) > 0 ){//가입성공
-//               messageBox(this , name.getText()+"님 가입축드립니다.");
-//               dispose();//JDialog 창닫기
-//               
-//               dao.userSelectAll(me.dt);//모든레코드가져와서 DefaultTableModel에 올리기
-//               
-//               if(me.dt.getRowCount() > 0)
-//                   me.jt.setRowSelectionInterval(0, 0);//첫번째 행 선택
-//               
-//           }else{//가입실패
-//               messageBox(this,"가입되지 않았습니다.");
-//           }
-//           
-//       }else 
     	   if(btnLabel.equals("수정")){
-           
-            if( dao.userUpdate(this) > 0){
-                messageBox(this, "수정완료되었습니다.");
-                dao.userMemberUpdate(this);
-                dispose();
-                dao.userSelectAll(me.dt);
-                if(me.dt.getRowCount() > 0 ) me.jt.setRowSelectionInterval(0, 0);
-               
-            }else{
+    		   int row = me.jt.getSelectedRow();//선택된 행
+    		   Object obj = me.jt.getValueAt(row, 3);
+           if(Integer.valueOf((String) obj) > 0) {
+        	   
+        	   if( dao.userUpdate(this) > 0){
+        		   messageBox(this, "수정완료되었습니다.");
+        		   dao.userMemberUpdate(this);
+        		   dispose();
+        		   dao.userSelectAll(me.dt);
+        		   if(me.dt.getRowCount() > 0 ) me.jt.setRowSelectionInterval(0, 0);
+        		   
+        	   }
+           }
+            else{
                 messageBox(this, "수정되지 않았습니다.");
             }
            

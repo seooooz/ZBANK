@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -14,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 
 
@@ -22,13 +22,10 @@ public class Success  implements ActionListener{
 	private JFrame f;
 	private JLabel lreceivername, lreceiverid, lreceiverAcc;
 	private JButton btsucc;
-	TransDAO tsdao;
-	BankIdAccountDAO dao;
+	private TransDAO tsdao;
 	
-	BufferedImage img = null;
-	private JLabel lreceiverdate;
-	private JLabel lreceivertype;
-	private JLabel lmybalance;
+	private BufferedImage img = null;
+	private JLabel lreceiverdate, lreceivertype, lmybalance;
 
 	class myPanel extends JPanel {
 		public void paint(Graphics g) {
@@ -96,7 +93,7 @@ public class Success  implements ActionListener{
 		
 		JLabel lreceivercash = new JLabel(Integer.toString(TransVo.mo.getCash())); 
 		lreceivercash.setFont(new Font("THE스피드", Font.BOLD, 17));
-		lreceivercash.setBounds(316, 397, 103, 30);
+		lreceivercash.setBounds(283, 397, 136, 30);
 		lreceivercash.setHorizontalAlignment(JLabel.RIGHT);
 		f.getContentPane().add(lreceivercash);
 		
@@ -108,13 +105,13 @@ public class Success  implements ActionListener{
 		
 		lreceivertype = new JLabel(tsdao.tstype);
 		lreceivertype.setFont(new Font("THE스피드", Font.BOLD, 17));
-		lreceivertype.setBounds(342, 319, 77, 35);
+		lreceivertype.setBounds(316, 319, 103, 35);
 		lreceivertype.setHorizontalAlignment(JLabel.RIGHT);
 		f.getContentPane().add(lreceivertype);
 		
 		lmybalance = new JLabel(Integer.toString(tsdao.balance));
 		lmybalance.setFont(new Font("THE스피드", Font.BOLD, 16));
-		lmybalance.setBounds(316, 458, 103, 36);
+		lmybalance.setBounds(283, 458, 136, 36);
 		lmybalance.setHorizontalAlignment(JLabel.RIGHT);
 		f.getContentPane().add(lmybalance);
 		btsucc.addActionListener(this);
@@ -126,7 +123,12 @@ public class Success  implements ActionListener{
 		if(e.getSource()==btsucc) {
 
 			f.setVisible(false);
-			new Bank();
+			try {
+				new Bank();
+			} catch (URISyntaxException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 

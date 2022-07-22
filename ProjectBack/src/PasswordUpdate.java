@@ -1,4 +1,3 @@
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.SystemColor;
@@ -16,19 +15,16 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 
 public class PasswordUpdate implements ActionListener {
-	JFrame f;
-	JButton bpwchange;
-	ImageIcon icon;
-	BankIdAccountDAO bdao;
-	MemberDAO dao;
-	BufferedImage img = null;
+	private JFrame f;
+	private JButton bpwchange;
+	private BufferedImage img = null;
 	private JTextField tfnowpass;
-	private JTextField tfnewpass;
-	private JTextField tfnewpasscheck;
+	private JPasswordField tfnewpass, tfnewpasscheck;
 
 	class myPanel extends JPanel {
 		public void paint(Graphics g) {
@@ -37,11 +33,6 @@ public class PasswordUpdate implements ActionListener {
 	}
 
 	public PasswordUpdate() {
-		// id랑 account 불러오기 (MemberVo static 메소드 사용)
-//		dao = new BankIdAccountDAO();
-//		dao.list(MemberVo.user);
-//		dao.balan(MemberVo.user);
-
 		f = new JFrame("pw변경");
 		f.getContentPane().setBackground(SystemColor.inactiveCaption);
 
@@ -55,6 +46,8 @@ public class PasswordUpdate implements ActionListener {
 			JOptionPane.showMessageDialog(null, "실패");
 			System.exit(0);
 		}
+		
+		
 
 		myPanel panel = new myPanel();
 		panel.setSize(500, 460);
@@ -87,13 +80,13 @@ public class PasswordUpdate implements ActionListener {
 		f.getContentPane().add(tfnowpass);
 		tfnowpass.setColumns(10);
 		
-		tfnewpass = new JTextField();
+		tfnewpass = new JPasswordField();
 		tfnewpass.setFont(new Font("THE스피드", Font.BOLD, 16));
 		tfnewpass.setColumns(10);
 		tfnewpass.setBounds(241, 248, 124, 21);
 		f.getContentPane().add(tfnewpass);
 		
-		tfnewpasscheck = new JTextField();
+		tfnewpasscheck = new JPasswordField();
 		tfnewpasscheck.setFont(new Font("THE스피드", Font.BOLD, 16));
 		tfnewpasscheck.setColumns(10);
 		tfnewpasscheck.setBounds(241, 288, 124, 21);
@@ -109,11 +102,38 @@ public class PasswordUpdate implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == bpwchange) {
-			MemberVo v = new MemberVo(tfnowpass.getText());
-			boolean b = dao.list(v);
+			MemberDAO md = new MemberDAO();
 			
-			if(b == true) {
-				
+			boolean b = md.passselect(tfnowpass.getText());
+			
+			//true = 중복값 없음,,,,, false = 중복값 있음
+			if(b == false) {
+				if(tfnowpass.getText().equals(tfnewpass.getText())) {
+					JOptionPane.showMessageDialog(null, "현재 비밀번호와 같습니다.", "실패", JOptionPane.WARNING_MESSAGE);
+					System.out.printf("현 비밀번호 %8s\n",tfnowpass.getText());
+					System.out.printf("새 비밀번호 %8s\n",tfnewpass.getText());
+				}else if(tfnewpass.getText().equals(tfnewpasscheck.getText())) {
+					boolean ok = md.passupdate(tfnewpass.getText());
+					
+					if(ok == true) {
+						JOptionPane.showMessageDialog(null, "정상적으로 바뀌었습니다.", "성공", JOptionPane.PLAIN_MESSAGE);
+						System.out.println("------------------------");
+						System.out.println("비밀번호 바꾸기 성공");
+						System.out.printf("새 비밀번호	%9s\n",tfnewpass.getText());
+						
+						f.setVisible(false);
+						new Login();
+					}else {
+						System.out.println("xxx비밀번호 바꾸기 실패xxx");
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "새 비밀번호를 확인해주세요.", "실패", JOptionPane.WARNING_MESSAGE);
+					System.out.println("------------------------");
+					System.out.printf("새 비밀번호 %9s\n",tfnewpass.getText());
+					System.out.printf("새 비밀번호 확인  %4s\n",tfnewpasscheck.getText());
+				}
+			}else {
+				JOptionPane.showMessageDialog(null, "현재 비밀번호를 다시 입력해주세요.", "실패", JOptionPane.WARNING_MESSAGE);
 			}
 		}
 	

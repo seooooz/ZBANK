@@ -21,11 +21,11 @@ import javax.swing.ImageIcon;
 
 public class Hello implements ActionListener{
 	private JFrame f;
-	JTextField tfId, tfPw;
+	private JTextField tfId, tfPw;
 	private JLabel lname, lid, tfcAcc;
-	JButton btgLogin;
-	HelloDAO dao;
-	BufferedImage img = null;
+	private JButton btgLogin;
+	private HelloDAO dao;
+	private BufferedImage img = null;
 
 	class myPanel extends JPanel {
 		public void paint(Graphics g) {
@@ -36,8 +36,8 @@ public class Hello implements ActionListener{
 	public Hello() {	
 		
 		dao = new HelloDAO();
-		dao.list(UserVo.user);
-		dao.list1(UserVo.user);
+		dao.list(MemberVo.user);
+		dao.list1(MemberVo.user);
 		
 		
 		f = new JFrame("축하");
@@ -72,7 +72,7 @@ public class Hello implements ActionListener{
 		f.getContentPane().add(lname);
 		lname.setFont(new Font("THE스피드", Font.BOLD, 17));
 		
-		lid =  new JLabel(UserVo.user.getId());
+		lid =  new JLabel(MemberVo.user.getId());
 		lid.setFont(new Font("THE스피드", Font.BOLD, 17));
 		lid.setBounds(245, 258, 116, 21);
 		f.getContentPane().add(lid);
@@ -97,7 +97,7 @@ public class Hello implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btgLogin) {
-			dao.admin(UserVo.user);
+			dao.admin(MemberVo.user);
 			f.setVisible(false);
 			new Login();
 		}

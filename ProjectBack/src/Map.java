@@ -31,8 +31,6 @@ public class Map {
 		JButton button = new JButton();
 		button.setText("\uC9C0\uB3C4");
 		button.setBounds(75, 128, 104, 67);
-//		button.setText(
-//				"<HTML>Click the <FONT color=\"#000099\"><U>link</U></FONT>" + " to go to the Java website.</HTML>");
 		button.setHorizontalAlignment(SwingConstants.LEFT);
 		button.setBorderPainted(false);
 		button.setOpaque(false);
