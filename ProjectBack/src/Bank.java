@@ -69,7 +69,7 @@ public class Bank implements ActionListener {
 		layerpane.setSize(500, 490);
 
 		try {
-			img = ImageIO.read(new File("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\Bank.png"));
+			img = ImageIO.read(new File("images\\Bank.png"));
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "실패");
 			System.exit(0);
@@ -106,8 +106,8 @@ public class Bank implements ActionListener {
 		bTrans.setContentAreaFilled(false);
 		bTrans.setBorderPainted(false);
 		bTrans.setFocusPainted(false);
-		bTrans.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\3.png"));
-		bTrans.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\3_1.png"));
+		bTrans.setIcon(new ImageIcon("images\\bt\\3.png"));
+		bTrans.setRolloverIcon(new ImageIcon("images\\bt\\3_1.png"));
 		f.getContentPane().add(bTrans);
 		bTrans.addActionListener(this);
 		
@@ -117,8 +117,8 @@ public class Bank implements ActionListener {
 		bdeposit.setContentAreaFilled(false);
 		bdeposit.setBorderPainted(false);
 		bdeposit.setFocusPainted(false);
-		bdeposit.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\deposit.png"));
-		bdeposit.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\deposit_1.png"));
+		bdeposit.setIcon(new ImageIcon("images\\bt\\deposit.png"));
+		bdeposit.setRolloverIcon(new ImageIcon("images\\bt\\deposit_1.png"));
 		bdeposit.addActionListener(this);
 		f.getContentPane().add(bdeposit);
 		
@@ -135,8 +135,8 @@ public class Bank implements ActionListener {
 		bCheck.setContentAreaFilled(false);
 		bCheck.setBorderPainted(false);
 		bCheck.setFocusPainted(false);
-		bCheck.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\check.png"));
-		bCheck.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\check_1.png"));
+		bCheck.setIcon(new ImageIcon("images\\bt\\check.png"));
+		bCheck.setRolloverIcon(new ImageIcon("images\\bt\\check_1.png"));
 		bCheck.addActionListener(this);
 		
 		//버튼) 마이페이지
@@ -144,8 +144,8 @@ public class Bank implements ActionListener {
 		bmypage.setContentAreaFilled(false);
 		bmypage.setBorderPainted(false);
 		bmypage.setFocusPainted(false);
-		bmypage.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main.png"));
-		bmypage.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\mypage.png"));
+		bmypage.setIcon(new ImageIcon("images\\bt\\main.png"));
+		bmypage.setRolloverIcon(new ImageIcon("images\\bt\\mypage.png"));
 		bmypage.setBounds(66, 113, 57, 55);
 		bmypage.addActionListener(this);
 		f.getContentPane().add(bmypage);
@@ -155,8 +155,8 @@ public class Bank implements ActionListener {
 		bmap.setContentAreaFilled(false);
 		bmap.setBorderPainted(false);
 		bmap.setFocusPainted(false);
-		bmap.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\map.png"));
-		bmap.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\map_1.png"));
+		bmap.setIcon(new ImageIcon("images\\bt\\map.png"));
+		bmap.setRolloverIcon(new ImageIcon("images\\bt\\map_1.png"));
 		bmap.setToolTipText(uri.toString());
 		bmap.addActionListener(new OpenUrlAction());
 		bmap.setBounds(409, 10, 57, 55);

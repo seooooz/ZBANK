@@ -49,7 +49,7 @@ public class Hello implements ActionListener{
 		layerpane.setSize(500, 490);
 
 		try {
-			img = ImageIO.read(new File("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\Hello.png"));
+			img = ImageIO.read(new File("images\\Hello.png"));
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "½ÇÆÐ");
 			System.exit(0);
@@ -86,8 +86,8 @@ public class Hello implements ActionListener{
 		btgLogin.setContentAreaFilled(false);
 		btgLogin.setBorderPainted(false);
 		btgLogin.setFocusPainted(false);
-		btgLogin.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\go.png"));
-		btgLogin.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\go_1.png"));
+		btgLogin.setIcon(new ImageIcon("images\\bt\\go.png"));
+		btgLogin.setRolloverIcon(new ImageIcon("images\\bt\\go_1.png"));
 		btgLogin.setBounds(167, 340, 159, 68);
 		f.getContentPane().add(btgLogin);
 		btgLogin.addActionListener(this);

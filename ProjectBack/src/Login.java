@@ -51,7 +51,8 @@ public class Login implements ActionListener {
 		layerpane.setSize(510, 740);
 
 		try {
-			img = ImageIO.read(new File("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\Login.png"));
+			img = ImageIO.read(new File("images\\Login.png"));
+			
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "½ÇÆÐ");
 			System.exit(0);
@@ -78,8 +79,8 @@ public class Login implements ActionListener {
 		bNew.setContentAreaFilled(false);
 		bNew.setBorderPainted(false);
 		bNew.setFocusPainted(false);
-		bNew.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\new.png"));
-		bNew.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\new_1.png"));
+		bNew.setIcon(new ImageIcon("images\\bt\\new.png"));
+		bNew.setRolloverIcon(new ImageIcon("images\\bt\\new_1.png"));
 		bNew.setBounds(288, 548, 122, 57);
 		f.getContentPane().add(bNew);
 		bNew.addActionListener(this);
@@ -88,9 +89,9 @@ public class Login implements ActionListener {
 		bLogin.setContentAreaFilled(false);
 		bLogin.setBorderPainted(false);
 		bLogin.setFocusPainted(false);
-		bLogin.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\login.png"));
+		bLogin.setIcon(new ImageIcon("images\\bt\\login.png"));
 		bLogin.setRolloverIcon(
-				new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\login_1.png"));
+				new ImageIcon("images\\bt\\login_1.png"));
 		bLogin.setBounds(83, 548, 122, 57);
 		f.getContentPane().add(bLogin);
 		bLogin.addActionListener(this);

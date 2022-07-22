@@ -47,7 +47,7 @@ public class Success  implements ActionListener{
 		layerpane.setSize(510, 740);
 
 		try {
-			img = ImageIO.read(new File("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\Success.png"));
+			img = ImageIO.read(new File("images\\Success.png"));
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "½ÇÆÐ");
 			System.exit(0);
@@ -86,8 +86,8 @@ public class Success  implements ActionListener{
 		btsucc.setContentAreaFilled(false);
 		btsucc.setBorderPainted(false);
 		btsucc.setFocusPainted(false);
-		btsucc.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\success.png"));
-		btsucc.setRolloverIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\success_1.png"));
+		btsucc.setIcon(new ImageIcon("images\\bt\\success.png"));
+		btsucc.setRolloverIcon(new ImageIcon("images\\bt\\success_1.png"));
 		btsucc.setBounds(181, 605, 132, 57);
 		f.getContentPane().add(btsucc);
 		

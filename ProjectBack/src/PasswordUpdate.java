@@ -41,7 +41,7 @@ public class PasswordUpdate implements ActionListener {
 		layerpane.setSize(500, 460);
 
 		try {
-			img = ImageIO.read(new File("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\Change.png"));
+			img = ImageIO.read(new File("images\\Change.png"));
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "실패");
 			System.exit(0);
@@ -65,9 +65,9 @@ public class PasswordUpdate implements ActionListener {
 		bpwchange.setContentAreaFilled(false);
 		bpwchange.setBorderPainted(false);
 		bpwchange.setFocusPainted(false);
-		bpwchange.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\pwchange.png"));
+		bpwchange.setIcon(new ImageIcon("images\\bt\\pwchange.png"));
 		bpwchange.setRolloverIcon(
-				new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\pwchange_1.png"));
+				new ImageIcon("images\\bt\\pwchange_1.png"));
 		
 		JLabel lmyid = new JLabel(MemberVo.user.getId());
 		lmyid.setFont(new Font("THE스피드", Font.BOLD, 16));

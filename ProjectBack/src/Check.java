@@ -61,7 +61,7 @@ public class Check implements ActionListener {
 		layerpane.setSize(494, 740);
 
 		try {
-			img = ImageIO.read(new File("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\Check.png"));
+			img = ImageIO.read(new File("images\\Check.png"));
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "½ÇÆÐ");
 			System.exit(0);
@@ -100,9 +100,9 @@ public class Check implements ActionListener {
 		bmain.setContentAreaFilled(false);
 		bmain.setBorderPainted(false);
 		bmain.setFocusPainted(false);
-		bmain.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main.png"));
+		bmain.setIcon(new ImageIcon("images\\bt\\main.png"));
 		bmain.setRolloverIcon(
-				new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main_1.png"));
+				new ImageIcon("images\\bt\\main_1.png"));
 		bmain.setBounds(23, 16, 57, 55);
 		bmain.addActionListener(this);
 		f.getContentPane().add(bmain);

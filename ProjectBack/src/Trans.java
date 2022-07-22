@@ -49,7 +49,7 @@ public class Trans implements ActionListener {
 		layerpane.setSize(510, 740);
 
 		try {
-			img = ImageIO.read(new File("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\Trans.png"));
+			img = ImageIO.read(new File("images\\Trans.png"));
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "½ÇÆÐ");
 			System.exit(0);
@@ -90,9 +90,9 @@ public class Trans implements ActionListener {
 		btidcheck.setContentAreaFilled(false);
 		btidcheck.setBorderPainted(false);
 		btidcheck.setFocusPainted(false);
-		btidcheck.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\select.png"));
+		btidcheck.setIcon(new ImageIcon("images\\bt\\select.png"));
 		btidcheck.setRolloverIcon(
-				new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\select_1.png"));
+				new ImageIcon("images\\bt\\select_1.png"));
 		btidcheck.setBounds(213, 255, 66, 39);
 		f.getContentPane().add(btidcheck);
 		btidcheck.addActionListener(this);
@@ -114,9 +114,9 @@ public class Trans implements ActionListener {
 		bTrans.setContentAreaFilled(false);
 		bTrans.setBorderPainted(false);
 		bTrans.setFocusPainted(false);
-		bTrans.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\trans.png"));
+		bTrans.setIcon(new ImageIcon("images\\bt\\trans.png"));
 		bTrans.setRolloverIcon(
-				new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\trans_1.png"));
+				new ImageIcon("images\\bt\\trans_1.png"));
 		bTrans.setBounds(198, 577, 97, 58);
 		f.getContentPane().add(bTrans);
 		bTrans.addActionListener(this);
@@ -134,9 +134,9 @@ public class Trans implements ActionListener {
 		bMain.setBorderPainted(false);
 		bMain.setFocusPainted(false);
 		bMain.setBounds(23, 16, 57, 58);
-		bMain.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main.png"));
+		bMain.setIcon(new ImageIcon("images\\bt\\main.png"));
 		bMain.setRolloverIcon(
-				new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main_1.png"));
+				new ImageIcon("images\\bt\\main_1.png"));
 		bMain.addActionListener(this);
 		f.getContentPane().add(bMain);
 

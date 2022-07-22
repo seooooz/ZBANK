@@ -45,7 +45,7 @@ public class Mypage implements ActionListener {
 		layerpane.setSize(500, 460);
 
 		try {
-			img = ImageIO.read(new File("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\Mypage.png"));
+			img = ImageIO.read(new File("images\\Mypage.png"));
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "실패");
 			System.exit(0);
@@ -89,9 +89,9 @@ public class Mypage implements ActionListener {
 		bremove.setContentAreaFilled(false);
 		bremove.setBorderPainted(false);
 		bremove.setFocusPainted(false);
-		bremove.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\remove.png"));
+		bremove.setIcon(new ImageIcon("images\\bt\\remove.png"));
 		bremove.setRolloverIcon(
-				new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\remove_1.png"));
+				new ImageIcon("images\\bt\\remove_1.png"));
 
 		lutype = new JLabel(dao.utype);
 		lutype.setFont(new Font("THE스피드", Font.BOLD, 16));
@@ -104,9 +104,9 @@ public class Mypage implements ActionListener {
 		bmain.setContentAreaFilled(false);
 		bmain.setBorderPainted(false);
 		bmain.setFocusPainted(false);
-		bmain.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main.png"));
+		bmain.setIcon(new ImageIcon("images\\bt\\main.png"));
 		bmain.setRolloverIcon(
-				new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main_1.png"));
+				new ImageIcon("images\\bt\\main_1.png"));
 		bmain.setBounds(25, 25, 57, 55);
 		bmain.addActionListener(this);
 		f.getContentPane().add(bmain);
@@ -115,9 +115,9 @@ public class Mypage implements ActionListener {
 		bchange.setContentAreaFilled(false);
 		bchange.setBorderPainted(false);
 		bchange.setFocusPainted(false);
-		bchange.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\change.png"));
+		bchange.setIcon(new ImageIcon("images\\bt\\change.png"));
 		bchange.setRolloverIcon(
-				new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\change_1.png"));
+				new ImageIcon("images\\bt\\change_1.png"));
 		bchange.setBounds(360, 25, 134, 38);
 		bchange.addActionListener(this);
 		f.getContentPane().add(bchange);

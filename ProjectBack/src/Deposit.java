@@ -57,7 +57,7 @@ public class Deposit implements ActionListener {
 		layerpane.setSize(500, 490);
 
 		try {
-			img = ImageIO.read(new File("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\deposit.png"));
+			img = ImageIO.read(new File("images\\deposit.png"));
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "½ÇÆÐ");
 			System.exit(0);
@@ -91,9 +91,9 @@ public class Deposit implements ActionListener {
 		bdeposit.setContentAreaFilled(false);
 		bdeposit.setBorderPainted(false);
 		bdeposit.setFocusPainted(false);
-		bdeposit.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\success.png"));
+		bdeposit.setIcon(new ImageIcon("images\\bt\\success.png"));
 		bdeposit.setRolloverIcon(
-				new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\success_1.png"));
+				new ImageIcon("images\\bt\\success_1.png"));
 		bdeposit.setBounds(186, 324, 122, 62);
 		f.getContentPane().add(bdeposit);
 
@@ -101,9 +101,9 @@ public class Deposit implements ActionListener {
 		bmain.setContentAreaFilled(false);
 		bmain.setBorderPainted(false);
 		bmain.setFocusPainted(false);
-		bmain.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main.png"));
+		bmain.setIcon(new ImageIcon("images\\bt\\main.png"));
 		bmain.setRolloverIcon(
-				new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\main_1.png"));
+				new ImageIcon("images\\bt\\main_1.png"));
 		bmain.setBounds(23, 16, 57, 55);
 		bmain.addActionListener(this);
 		f.getContentPane().add(bmain);

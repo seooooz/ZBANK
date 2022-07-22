@@ -41,7 +41,7 @@ public class NewLogin implements ActionListener {
 		layerpane.setSize(510, 740);
 
 		try {
-			img = ImageIO.read(new File("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\NewLogin.png"));
+			img = ImageIO.read(new File("images\\NewLogin.png"));
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "½ÇÆÐ");
 			System.exit(0);
@@ -73,9 +73,9 @@ public class NewLogin implements ActionListener {
 		bJoin.setContentAreaFilled(false);
 		bJoin.setBorderPainted(false);
 		bJoin.setFocusPainted(false);
-		bJoin.setIcon(new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\signup.png"));
+		bJoin.setIcon(new ImageIcon("images\\bt\\signup.png"));
 		bJoin.setRolloverIcon(
-				new ImageIcon("C:\\Users\\Administrator.User -2022RMRTU\\Desktop\\images\\bt\\signup_1.png"));
+				new ImageIcon("images\\bt\\signup_1.png"));
 		bJoin.setBounds(184, 558, 126, 57);
 		f.getContentPane().add(bJoin);
 		bJoin.setForeground(SystemColor.textHighlight);
