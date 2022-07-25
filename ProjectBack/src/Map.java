@@ -17,7 +17,7 @@ public class Map {
 
 	public static void main(String[] args) throws URISyntaxException {
 
-		final URI uri = new URI("http://localhost:8000/1.html");
+		final URI uri = new URI("http://localhost:8000/kakaomap.html");
 		class OpenUrlAction implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {

@@ -47,7 +47,7 @@ public class Bank implements ActionListener {
 
 	public Bank() throws URISyntaxException{
 		// 카카오맵 불러오기
-		final URI uri = new URI("http://localhost:8000/1.html");
+		final URI uri = new URI("http://localhost:8000/kakaomap.html");
 		class OpenUrlAction implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {

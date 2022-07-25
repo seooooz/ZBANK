@@ -114,7 +114,9 @@ public class Login implements ActionListener {
 				pf.grabFocus();
 				return;
 			} else {
-				System.out.printf("비밀번호 %10s\n",pf.getText());
+				System.out.println("-------로그인 페이지--------");
+				System.out.printf("입력한 비밀번호 %5s\n",pf.getText());
+				
 				
 				vo = new MemberVo(id.getText(), pf.getText());
 				boolean b = dao.list(vo);

@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,7 +23,7 @@ public class Admin extends JFrame implements ActionListener {
 	JMenuItem quit = new JMenuItem("종료");
 	JMenuBar mb = new JMenuBar();
 
-	String[] name = { "name", "id", "account", "tscount", "type", "update" };
+	String[] name = { "NAME", "ID", "ACCOUNT", "COUNT", "TYPE", "UPDATE" };
 
 	DefaultTableModel dt = new DefaultTableModel(name, 0) {
 
@@ -38,9 +39,19 @@ public class Admin extends JFrame implements ActionListener {
 	 */
 
 	JPanel p = new JPanel();
-	String[] comboName = { "  ALL  ", "adname", "adid", "adaccount", "adtype" };
+//	String[] comboName = { "  ALL  ", "adname", "adid", "adaccount", "adtype" };
+	HashMap<String, String> comboName = new HashMap<String, String>() {
+     {
+        put("ALL", "ALL");
+        put("NAME", "adname");
+        put("ID", "adid");
+        put("ACCOUNT", "adaccount");
+        put("TYPE", "adtype");
+     }
+  };
 
-	JComboBox combo = new JComboBox(comboName);
+//	JComboBox combo = new JComboBox(comboName);
+  	JComboBox combo = new JComboBox(comboName.keySet().toArray(new String[0]));
 	JTextField jtf = new JTextField(20);
 	JButton serach;
 
@@ -83,7 +94,7 @@ public class Admin extends JFrame implements ActionListener {
 		getContentPane().add(jsp, "Center");
 		getContentPane().add(p, "South");
 
-		setSize(500, 400);
+		setSize(800, 400);
 		setVisible(true);
 
 		super.setLocationRelativeTo(null);
@@ -147,13 +158,17 @@ public class Admin extends JFrame implements ActionListener {
 					}
 				} else {
 					AdminJDailogGUI.messageBox(this, "탈퇴 불가능합니다. \n 계좌에 돈이 있습니다.");
+					dao.nodeleteuserUpdate(obj.toString());
+					dao.nodeleteuserMemberUpdate(obj.toString());
 				}
 			}else {
 				AdminJDailogGUI.messageBox(this, "탈퇴 신청한 이용자가 아닙니다.");
 			}
 
 		} else if (e.getSource() == quit) {// 종료 메뉴아이템 클릭
-			System.exit(0);
+//			System.exit(0);
+			setVisible(false);
+			new Login();
 
 		} else if (e.getSource() == serach) {// 검색 버튼 클릭
 			// JComboBox에 선택된 value 가져오기
@@ -169,7 +184,7 @@ public class Admin extends JFrame implements ActionListener {
 					AdminJDailogGUI.messageBox(this, "검색단어를 입력해주세요!");
 					jtf.requestFocus();
 				} else {// 검색어를 입력했을경우
-					dao.getUserSearch(dt, fieldName, jtf.getText());
+					dao.getUserSearch(dt, comboName.get(fieldName), jtf.getText());
 					if (dt.getRowCount() > 0)
 						jt.setRowSelectionInterval(0, 0);
 				}

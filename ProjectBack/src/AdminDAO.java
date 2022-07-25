@@ -256,6 +256,47 @@ public class AdminDAO {
  
         return result;
     }//userUpdate()
+    public int nodeleteuserUpdate(String id) {
+    	int result = 0;
+    	String sql = "UPDATE admin SET adtype= '탈퇴 반려', addate = sysdate WHERE adid=?";
+    	
+    	try {
+    		pstmt = con.prepareStatement(sql);
+    		// ?의 순서대로 값 넣기
+    		pstmt.setString(1, id);
+    		
+    		// 실행하기
+    		result = pstmt.executeUpdate();
+    		
+    	} catch (SQLException e) {
+    		System.out.println(e + "=> userUpdate fail");
+    	} finally {
+    		dbClose();
+    	}
+    	
+    	return result;
+    }//userUpdate()
+    
+    public int nodeleteuserMemberUpdate(String id) {
+    	int result = 0;
+    	String sql = "UPDATE usermember SET utype= '탈퇴 반려' WHERE id=?";
+    	
+    	try {
+    		pstmt = con.prepareStatement(sql);
+    		// ?의 순서대로 값 넣기
+    		pstmt.setString(1, id);
+    		
+    		// 실행하기
+    		result = pstmt.executeUpdate();
+    		
+    	} catch (SQLException e) {
+    		System.out.println(e + "=> userMemberUpdate fail");
+    	} finally {
+    		dbClose();
+    	}
+    	
+    	return result;
+    }//userUpdate()
 
     
     //admin테이블 adtsnumber 이체, 채우기 할때마다 count해서 update

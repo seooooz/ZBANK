@@ -65,7 +65,9 @@ public class MemberDAO {
 
 			if (rs.getRow() == 0) {
                 System.out.println("0 row selected.....");
+                System.out.println("로그인 실패");
 			} else {
+				System.out.println("로그인 성공");
 				return true;
 			}
 						

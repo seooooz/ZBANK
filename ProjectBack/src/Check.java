@@ -101,8 +101,7 @@ public class Check implements ActionListener {
 		bmain.setBorderPainted(false);
 		bmain.setFocusPainted(false);
 		bmain.setIcon(new ImageIcon("images\\bt\\main.png"));
-		bmain.setRolloverIcon(
-				new ImageIcon("images\\bt\\main_1.png"));
+		bmain.setRolloverIcon(new ImageIcon("images\\bt\\main_1.png"));
 		bmain.setBounds(23, 16, 57, 55);
 		bmain.addActionListener(this);
 		f.getContentPane().add(bmain);

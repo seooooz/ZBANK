@@ -112,14 +112,14 @@ public class PasswordUpdate implements ActionListener {
 					JOptionPane.showMessageDialog(null, "현재 비밀번호와 같습니다.", "실패", JOptionPane.WARNING_MESSAGE);
 					System.out.printf("현 비밀번호 %8s\n",tfnowpass.getText());
 					System.out.printf("새 비밀번호 %8s\n",tfnewpass.getText());
+					System.out.println("<<현재 비밀번호와 같습니다.>>");
 				}else if(tfnewpass.getText().equals(tfnewpasscheck.getText())) {
 					boolean ok = md.passupdate(tfnewpass.getText());
 					
 					if(ok == true) {
 						JOptionPane.showMessageDialog(null, "정상적으로 바뀌었습니다.", "성공", JOptionPane.PLAIN_MESSAGE);
-						System.out.println("------------------------");
-						System.out.println("비밀번호 바꾸기 성공");
-						System.out.printf("새 비밀번호	%9s\n",tfnewpass.getText());
+						System.out.println("-----비밀번호 바꾸기 성공------");
+						System.out.printf("바뀐 비밀번호%9s\n",tfnewpass.getText());
 						
 						f.setVisible(false);
 						new Login();
@@ -131,6 +131,8 @@ public class PasswordUpdate implements ActionListener {
 					System.out.println("------------------------");
 					System.out.printf("새 비밀번호 %9s\n",tfnewpass.getText());
 					System.out.printf("새 비밀번호 확인  %4s\n",tfnewpasscheck.getText());
+					System.out.println("<<새 비밀번호를 확인해주세요.>>");
+					System.out.println();
 				}
 			}else {
 				JOptionPane.showMessageDialog(null, "현재 비밀번호를 다시 입력해주세요.", "실패", JOptionPane.WARNING_MESSAGE);

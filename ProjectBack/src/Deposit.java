@@ -127,7 +127,7 @@ public class Deposit implements ActionListener {
 		if (e.getSource() == bdeposit) {
 
 			if (tfcash.getText().length() > 10) {
-				JOptionPane.showMessageDialog(null, "10억이상 불가 \n 죄송합니다.", "실패", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, "10억 이상 불가 \n 죄송합니다.", "실패", JOptionPane.PLAIN_MESSAGE);
 				System.out.println("nope");
 			} else if(tfcash.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "금액을 입력해주세요.", "실패", JOptionPane.PLAIN_MESSAGE);
@@ -147,7 +147,7 @@ public class Deposit implements ActionListener {
 						e1.printStackTrace();
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "금액이이 최대 금액을 초과합니다.", "송금 실패", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "금액이 최대 금액을 초과합니다.\n 10자리 이상 불가.", "송금 실패", JOptionPane.WARNING_MESSAGE);
 					tfcash.setText("");// text박스 지우기
 					tfcash.requestFocus();//커서에 놓기
 				}
